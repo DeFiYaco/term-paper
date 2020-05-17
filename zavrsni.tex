@@ -48,7 +48,7 @@ u jednostavnoj web aplikaciji.
 
 \chapter{Tehnologija glavne raspodijeljene knjige}
 U nastavku ćemo tehnologiju glavne raspodijeljenje knjige (engl. \emph{Distributed Ledger Technology})
- referencirati kraće po kratici engleskog naziva, odnosno DLT. \\
+ referencirati kraće po kratici engleskog naziva, odnosno DLT. \\ 
 DLT i blockchain se češto poistovjećuju no to nije u potpunosti ispravno. Bitno je znati da je 
 svaki blockchain DLT s određenim pravilima konsenzusa.
 DLT je baza podataka repliciranog sadržaja na svakom čvoru \emph{peer-to-peer} mreže. Svaki čvor
@@ -83,6 +83,74 @@ samo raspodijeljena platforma za transakcije, već raspodijeljeni virtualni stro
 
 
 \chapter{Proof of Authoroty algoritam}
+
+\chapter{PoA mreža na raznovrsnom sklopovlju}
+Glavni zadatak ovog završnog rada bio je postaviti vlastitu mrežu koristeći Ethereum platformu na raznorodnom sklopovlju
+te provjeriti koliko su visoki zahtjevi jedne takve mreže na hardver. Osim same mreže, dodane su još neke osnovne funkcionalnosti
+kako bi se što ovi laboratorijski uvjeti što više približili pravom svijetu te nam ponudili kvalitetnije rezultate. Tako recimo
+imamo postavljen pretražitelj blokova (engl. \emph{Block explorer}) koji u realnom vremenu prikazuje putem web aplikacije
+trenutni blok i transakcije koje su se provele u tom bloku. Moguće je i pretraživati starije blokove putem njega. \\
+Osim pretražitelja blokova, dodana je i još jedna web aplikacija koja nudi podatke o opterećenosti pojedinog čvora u mreži
+što je korisno za ovaj završni rad jer jednostavno možemo usporediti opterećenost na raznorodnom sklopovlju. \\
+Posljednja funkcionalnost jest zapravo podizanje (engl. \emph{deployment}) najjednostavnijeg pametnog ugovora kako bismo
+zapravo mogli vidjeti samu komunikaciju između čvorova i izvođenje programskog koda.
+
+\section{Sklopovlje i programska podrška}
+Ono što čini ovaj sustav zanimljivim i pristupačnim širokoj populaciji je mogućnost sudjelovanja u distribuiranoj mreži s vrlo
+različitim sklopovljem. To znači da korisnici u većini slučajeva neće morati ulagati novac u novi hardver.\\ U ovom radu su korištena
+tri uređaja s ARM procesorima, jedno prijenosno računalo s Intel 64 bitnim procesorom i stolno računalo s AMD 64 bitnim procesorom.
+\subsection{Cubieboard2}
+Cubieboard2 jest jednostavno računalo (engl. \emph{single-board computer}) kompanije Cubietech. Ovo računalo jest otvoreno
+što znači da su svi podaci o sklopovlju dostupni javno. Cubieboard2 je njihov drugi proizvod, izravni nasljednik originalnog Cubieboarda.\\
+Pogoni ga Allwinner A20 čipset kojeg čini dvojezgreni Cortex-A7 procesor takta 1 GHz s Mali400 grafičkim sklopom. 
+Na ploči je integrirana radna memorija DDR3 kapaciteta 1 GB na taktu 480 MHz i memorija za pohranu od 4 GB. Memorija za pohranu je 
+proširiva microSD memorijskom karticom.
+Ne postoji ugrađen modul za bežičnu povezivost putem Wifi-a pa je korišten Ethernet ulaz propusnosti 10M/100M. \\
+Ovo računalo je moguće napajati putem USB micro sučelja ili DC 5V ulaza. \\
+Obzirom da je Cortex-A7 ARM procesor postoje razne mogućnosti kad je u pitanju odabir operativni sustav. Tvornički dolazi
+Android da unutarnjoj memoriji od 4 GB što nije odgovaralo potrebama ovog rada pa je bilo potrebno pronaći odgovarajuću distribuciju
+Linux operativnog sustava.\\ Odličan izbor se pokazala distribucija armbian koja je ponudila minimalnu instalaciju operativnog sustava
+za ovo računalo baziranu na Debian Linuxu. Dolazi s ažurnom verzijom Linux kernela 5.4 što znači da sa strane programske podrške
+postoje dobri uvjeti. \\
+Nakon instalacije operativnog sustava, ažurirani su svi paketi, postavljena je statična IP adresa kako bi se bilo moguće udaljeno
+povezati na računalo putem SSH protokola. 
+\subsection{Raspberry Pi 1 model B}
+Raspberry Pi je najraširenije jednostavno računalo. Model 1B jest prva generacija iz 2012. godine koja po današnjim standardima
+donosi vrlo ograničene performance. \\
+Ovo računalo je dizajnirano oko Broadcom BCM2835 sustava na čipu (engl. \emph{SoC}) koji sadrži ARM1176JZF-S procesor na ARMv6
+arhitekturi i radnom taktu od 700 MHz. Usko grlo jest 256 MB radne memorije od kojih je samo 192 MB dostupno procesoru a ostatak je
+rezerviran za obradu multimedijskog sadržaja. Ne postoji nikakva ugrađena memorija za pohranu nego sva pohrana ide na SD karicu.
+Kao i kod Cubieboard2 računala, niti ovdje ne postoji ugrađeni Wifi modul pa su mogućnosti svedene na Ethernet ulaz ili USB
+adapter za Wifi. Računalo se napaja putem USB micro sučelja.\\
+Obzirom da je Raspberry Pi vrlo raširen, operativni sustav je vrlo lako dostupan i redovno održavan. Korišten je službeni
+Raspbian operativni sustav koji je baziran na Debian Linux distribuciji. Raspbian dolazi u dvije varijante, s grafičkim sučeljem
+i bez njega (engl. \emph{headless}). Za ovaj rad je primjerenije odabrati opciju bez grafičkog sučelja kako ne bismo trošili
+resurse nepotrebno na prikaz slike i razne dodatne procese koji su porenuti s grafičkim sučeljem. \\
+Nakon instalacije Raspbiana, paketi su ažurirani i kao i kod Cubieboard2 računala, postavljena je statična IP adresa i upaljen SSH
+servis. \\
+Već prilikom ovog postavljanja se vidi da je u odnosu na Cubieboard2 ovo računalo dosta nižih performanci.
+\subsection{Raspberry Pi 3 model B}
+Ovaj model je najranije izdanje treće generacije Raspberry Pi računala. Sklopovljem je mnogo bliži Cubieboard2 računalu nego
+svom predhodniku prve generacije. \\
+Pogoni ga četverojezgreni Broadcom BCM2837 64 bitni procesor radnog takta 1,2 GHz. Baziran je na armhf arhitekturi.
+BCM2837 ima ugrađeni modul za bežičnu povezivost putem Wifi-a i Bluetooth-a. Na ploči je 1 GB radne memorije i kao i njegov prethodnik
+nema memoriju za pohranu na ploči nego za to koristi microSD karticu. Napaja se putem USB Micro sučelja. \\
+Ponovno je odabir operativng sustava raznovrstan zbog raširene arhitekture procesora no većina korisnika koristi službeni 
+Raspbian. Odabrana je opcija bez grafičkog sučelja te su provedeni koraci kao i za prethodna dva računala. \\
+Postavljanje sustava i postavki je značajno brže nego na Raspberry Pi 1 modelu što je očekivano obzirom na sklopovlje.
+\subsection{Prijenosno i stolno računalo}
+Prijenosno računalo kao i stolno računalo je u raširenijoj uporabi u kućanstvima i upravo takvim sklopovljem se može
+najvjernije prikazati kako gotovo bilo tko može sudjelovati u jednoj distribuiranoj mreži na Ethereum platformi. \\
+Sklopovlje na korištenim računalima u ovom radu ne spada među najmoderniji sloj trenutno dostupnog sklopovlja no i dalje
+je mnogo snažnije nego na single-board računalima. \\
+Prijenosno računalo pogoni Intel Pentium četverojezgreni procesor N3530 čiji radni takt seže do maksimalnih 2,58 GHz.
+Ugrađeno je 8 GB radne memorije i za pohranu se koristi SSD kapaciteta 500 GB. Ovaj procesor je 64 bitne arhitekture.
+Kao i većina prijenosnih računala danas i ovo posjeduje ugrađenu mrežnu karticu koja nudi bežićnu povezivost. \\
+Stolno računalo pogoni AMD Phenom II X4 925 procesor čiji je takt podignut na 3,4 GHz. Arhitekture procesora je 64 bitna.
+Također ima 8 GB radne memorije na taktu 800 MHz. Podaci se pohranjuju na SSD od 250 GB. \\
+Računalo je povezano putem Ethernet sučelja na usmjeritelj (engl. \emph{Router}). \\
+Na prijenosnom računalu je instaliran Xubuntu 20 operativni sustav dok je na stolnom računalu instaliran Ubuntu 19.10.
+Oba operativna sustava su redovno ažurirana i imaju postavljene statične IP adrese.
 
 
 \chapter{Zaključak}
