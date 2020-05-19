@@ -8,7 +8,7 @@ raspi3
 
 
 metamask test1234
-valid mind sample current trial dragon estate timber globe truck debris plastic
+oval leopard chest rail magnet output amount black leg want guess section
 
 geth --datadir node1/ --syncmode 'full' --bootnodes 'enode://e5901c099c7894f23427f0d433f0edbfda01fd88e7788585dc3994a39f7e5e0f6185b96e9263dd4071263a447ec10133725e470a2b830ecab9daffe29f66132d@192.168.1.13:0?discport=30310' --networkid 15316 --gasprice '1' -unlock '0xBC60333862ccdB3E515d9b274834552ce24739eE' --allow-insecure-unlock --mine
 
@@ -16,3 +16,4 @@ geth --datadir node2/ --syncmode 'full' --bootnodes 'enode://e5901c099c7894f2342
 
 geth --datadir node3/ --syncmode 'full' --bootnodes 'enode://e5901c099c7894f23427f0d433f0edbfda01fd88e7788585dc3994a39f7e5e0f6185b96e9263dd4071263a447ec10133725e470a2b830ecab9daffe29f66132d@192.168.1.13:0?discport=30310' --networkid 15316 --gasprice '1' -unlock '0x6E088347443A6C361F281E533Afc805c4f1900b5' --allow-insecure-unlock --mine
 
+geth --datadir node4/ --syncmode 'full' --bootnodes 'enode://e5901c099c7894f23427f0d433f0edbfda01fd88e7788585dc3994a39f7e5e0f6185b96e9263dd4071263a447ec10133725e470a2b830ecab9daffe29f66132d@192.168.1.13:0?discport=30310' --networkid 15316 --gasprice '1' -unlock '0xaD59dA52E58E82799bfB7cC360f49Eed872Bc586' --allow-insecure-unlock --mine --rpc --rpcaddr 'localhost' --rpcport 8545  --rpcapi 'personal,db,eth,net,web3,txpool,miner' --rpccorsdomain "*"
