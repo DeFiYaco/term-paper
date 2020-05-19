@@ -20,3 +20,28 @@ node2(AMD PC)=0x968245A9bd3aFA193995BD01c055D7Aa4597B3E8
 node3(Rpi3)=0x6E088347443A6C361F281E533Afc805c4f1900b5
 node4(Intel laptop)=0xaD59dA52E58E82799bfB7cC360f49Eed872Bc586
 node5(cubie12)=0xD907a7F584cc815Ef8DA06320FEB8206107Ee270
+
+Generiran genesis, opisi polja
+Inicijalizacija nodeova s genesisom
+`geth --datadir node1/ init genesis.json`
+`INFO [05-19|20:27:26.536] Maximum peer count                       ETH=50 LES=0 total=50
+INFO [05-19|20:27:26.536] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory"
+INFO [05-19|20:27:26.540] Allocated cache and file handles         database=/home/jakic007/poa/node2/geth/chaindata cache=16.00MiB handles=16
+INFO [05-19|20:27:26.558] Writing custom genesis block 
+INFO [05-19|20:27:26.560] Persisted trie from memory database      nodes=8 size=1.20KiB time=931.031µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [05-19|20:27:26.560] Successfully wrote genesis state         database=chaindata                               hash=9bcbfc…dac475
+INFO [05-19|20:27:26.561] Allocated cache and file handles         database=/home/jakic007/poa/node2/geth/lightchaindata cache=16.00MiB handles=16
+INFO [05-19|20:27:26.572] Writing custom genesis block 
+INFO [05-19|20:27:26.573] Persisted trie from memory database      nodes=8 size=1.20KiB time=1.073665ms gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [05-19|20:27:26.573] Successfully wrote genesis state         database=lightchaindata                          hash=9bcbfc…dac475`
+
+
+Kreiranje bootnodea i objasni
+`bootnode -genkey boot.key`
+`888a244c215e8c42002b463f4a946d43dc7f176f9353161cb2a53750801a1d80`
+Pokreni bootnode i objasni
+`bootnode -nodekey boot.key -verbosity 9 -addr 192.168.1.13:30310`
+Pokreni node
+`
+geth --datadir node1/ --syncmode 'full' --bootnodes 'enode://e5901c099c7894f23427f0d433f0edbfda01fd88e7788585dc3994a39f7e5e0f6185b96e9263dd4071263a447ec10133725e470a2b830ecab9daffe29f66132d@192.168.1.13:0?discport=30310' --networkid 15316 --gasprice '1' -unlock '0xBC60333862ccdB3E515d9b274834552ce24739eE' --allow-insecure-unlock --mine
+`
