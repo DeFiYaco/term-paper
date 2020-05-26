@@ -1,0 +1,13 @@
+Literatura:
+
+Proof of Authority whitepaper:
+	https://github.com/poanetwork/wiki/wiki/POA-Network-Whitepaper
+
+Geth dokumentacija: 
+	https://geth.ethereum.org/docs/
+
+Genesis:
+	https://eips.ethereum.org/EIPS/eip-225
+	https://docs.klaytn.com/node/service-chain/references/genesis#config
+	
+
