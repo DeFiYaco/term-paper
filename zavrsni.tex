@@ -292,9 +292,11 @@ U nastavku je prikazana \emph{genesis.json} datoteka koja je korištena u ovom p
 \end{lstlisting}
 
 U "config" odjeljku se definira identifikator mreže i algoritam konsenzusa. Ovdje je to \emph{clique}. U njegovim opcijama je namješten
-period na 15 sekundi i \emph{empoch} koji govori nakon kojeg bloka se kreira točka (engl. \emph{checkpoint}) nakon koje će čvorovi moći
+period na 15 sekundi i \emph{epoch} koji govori nakon kojeg bloka se kreira točka (engl. \emph{checkpoint}) nakon koje će čvorovi moći
 uskladiti svoje stanje bez da provjeravaju povijest od prvog bloka, odnosno \emph{genesis} bloka. Dovoljno je očitati stanje na \emph{checkpointu}
-što donosi velika poboljšanja u performancama uz određeni komporomis u sigurnosti algoritma.
+što donosi velika poboljšanja u performancama uz određeni kompromis u sigurnosti algoritma. \\
+Osim tih polja, za \emph{Proof of Authority} je jedino još važno u polje "alloc" dodati sve čvorove kojima će biti dozvoljeno potvrđivati
+nove generirane blokove (engl. \emph{sealing blocks}).
 
 \chapter{Zaključak}
 Zaključak.
