@@ -45,3 +45,5 @@ Pokreni node
 `
 geth --datadir node3/ --syncmode 'full' --bootnodes 'enode://e5901c099c7894f23427f0d433f0edbfda01fd88e7788585dc3994a39f7e5e0f6185b96e9263dd4071263a447ec10133725e470a2b830ecab9daffe29f66132d@192.168.1.13:0?discport=30310' --networkid 15316 --gasprice '1' -unlock '0x6E088347443A6C361F281E533Afc805c4f1900b5' --allow-insecure-unlock --mine
 `
+
+docker run -p 80:80 -e APP_NODE_URL="http://localhost:8545" alethio/ethereum-lite-explorer
