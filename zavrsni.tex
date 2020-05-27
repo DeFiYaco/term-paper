@@ -201,7 +201,7 @@ Također ima 8 GB radne memorije na taktu 800 MHz. Podaci se pohranjuju na SSD o
 Računalo je povezano putem Ethernet sučelja na usmjeritelj (engl. \emph{Router}). \\
 Na prijenosnom računalu je instaliran Xubuntu 20 operativni sustav dok je na stolnom računalu instaliran Ubuntu 19.10.
 Oba operativna sustava su redovno ažurirana i imaju postavljene statične IP adrese.
-\section{Geth}
+\section{Geth privatna mreža}
 Geth je službena implementacija Ethereum protocola u programskom jeziku Go. Izvorni kod je javno dostupan na Github platformi. \\
 Postavljanje je vrlo dobro opisano u službenoj dokumentaciji. Potrebno ga je instalirati ili pokretati iz docker kontejnera. 
 Za ovaj rad je odabrana klasična instalacija zbog boljih performanci i smanjenja općih troškova (engl. \emph{overhead}).
@@ -210,12 +210,11 @@ i već su dostupne unaprijed izgrađene binarne datoteke za ARM i amd64 arhitekt
 stranici za preuzimanje \url{https://geth.ethereum.org/downloads/}.\\ Za Cubieboard2 i Raspberry Pi računala je odabran paket
 preveden za ARMv7 arhitekturu dok je za oba računala odabran paket preved za 64 bitnu arhitekturu. \\
 Na Debian baziranim operativnim sustavima je također moguće instalirati Geth putem \emph{apt} repozitorija. \\
-\subsection{Primjer privatne mreže}
+\subsection{Generiranje novčanika i konfiguracijska datoteka}
 Da bismo izgradili privatnu Ethereum mrežu potrebno je inicijalizirati novčanik (engl \emph{wallet}) za svaki čvor. Taj novčanik
 će biti identifikator pojedinog čvora u mreži. \\
 Potrebno je kreirati novi direktorij u kojem će se nalaziti sve potrebne datoteke za Geth i naredbom generirati u nju novi novčanik.
 
-\subsubsection{Generiranje novčanika i konfiguracijska datoteka}
 \begin{lstlisting}
     $ mkdir node
     $ geth --datadir node/ account new
@@ -301,7 +300,7 @@ uskladiti svoje stanje bez da provjeravaju povijest od prvog bloka, odnosno \emp
 Osim tih polja, za \emph{Proof of Authority} je jedino još važno u polje "alloc" dodati sve čvorove kojima će biti dozvoljeno potvrđivati
 nove generirane blokove (engl. \emph{sealing blocks}). Redom adrese navedene su adrese novčanika Raspberry Pi 3 pločice, AMD stolnog računala, Intel prijenosnog
 računala i poslijednje dvije su adrese dvije različite Cubieboard2 pločice. \\
-\subsubsection{Inicijalizacija čvorova}
+\subsection{Inicijalizacija čvorova}
 Kako bi čvorovi bili ispravno konfigurirani za povezivanje u istu mrežu s jednakim uputama o vremenu kreiranja blokova i ostalih konfiguracijskih
 parametara, potrebno je svaki čvor inicijalizirati istom \emph{genesis.json} datotekom. 
 
@@ -309,7 +308,7 @@ parametara, potrebno je svaki čvor inicijalizirati istom \emph{genesis.json} da
 $ geth --datadir node/ init genesis.json
 \end{lstlisting}
 U ovom trenutku je svaki čvor spreman uključiti se u mrežu.
-\subsubsection{Detekcija čvorova}
+\subsection{Detekcija čvorova}
 Da bi mreža bila valjana i funkcionalna, potrebno je da čvorovi budu povezani i da se vide međusobno.
 Kako bi se to osiguralo koristi se jedan dodatni čvor koji neće sudjelovati u potvrđivanju i kreiranju novih blokova
 nego će samo listu IP adresa svih dolaznih konekcija čvorova slati nazad čvorovima. Na taj način će čvorovi znati s kim komunicirati.
@@ -324,7 +323,7 @@ detaljan ispis događaja u konzoli. \\
 \end{lstlisting}
 
 \emph{Bootnode} ispisuje svoj identifikator koji treba pospremiti i čeka na čvorove.
-\subsubsection{Uključivanje čvorova}
+\subsection{Pokretanje geth procesa na čvorovima}
 Nakon što su svi prethodni koraci uspješno obavljeni preostaje pokrenuti geth čvor na svakom uređaju. Dovoljna je jedna naredba
 kojom se zadaje identifikator \emph{bootnodea} i mreže i adresa novčanika koja će predstavljati čvor. 
 
@@ -380,14 +379,14 @@ Postoje dva načina pokretanja ove aplikacije, prevođenjem izvornog koda na vla
 Jedini preduvjet je imati instaliran \emph{docker} klijent na računalu. Nakon toga se sve pokreće jednom naredbom.
 
 \begin{lstlisting}
-  $ docker run -p 80:80 -e APP_NODE_URL="http://localhost:8545" alethio/ethereum-lite-explorer
+  $ docker run -p 8080:80 -e APP_NODE_URL="http://localhost:8545" alethio/ethereum-lite-explorer
 \end{lstlisting}
 
 \emph{Docker} provjerava postoji li već lokalno dostupna slika te ako ne postoji je dohvaća s \emph{Docker Hub} repozitorija.
 Ovim načinom nije potrebno mijenjati konfiguracijsku datoteku već je dovoljno samo dodati varijablu okoline (engl. \emph{environment variable})
 koja aplikaciji daje IP adresu i vrata čvora na koji se potrebno spojiti. \\
-Parametrom "-p 80:80" se prosljeđuje \emph{port} 80 unutar kontejnera na \emph{port} 80 na uređaju na kojem se pokreće kontejner. \\
-Utipkavanjem adrese "localhost:80" u željeni preglednik otvara se aplikacija i prikazuje početni ekran. \\
+Parametrom "-p 8080:80" se prosljeđuje \emph{port} 80 unutar kontejnera na \emph{port} 8080 na uređaju na kojem se pokreće kontejner. \\
+Utipkavanjem adrese "localhost:8080" u željeni preglednik otvara se aplikacija i prikazuje početni ekran. \\
 Blok 47 na slici je prazan, odnosno niti jedna transakcija se nije dogodila u njemu.
 
 \begin{figure}[h]
@@ -395,6 +394,86 @@ Blok 47 na slici je prazan, odnosno niti jedna transakcija se nije dogodila u nj
   \centering
   \includegraphics[width=\textwidth]{blockexplorer.png}
 \end{figure}
+
+\subsection{Opterećenost čvorova}
+Za dobivanje podataka potrebnih za usporedbu performanci na raznorodnom sklopovlju potreban je poseban servis koji će pratiti
+opterećenost sklopovlja čvora. Jednako kao i za praćenje stanja blokova, postoji više dostupnih alata. Za ovaj rad je ponovno
+odabran \emph{Alethiov} alat \emph{ethstats}. Razlog tome je što je jedini redovno održavan, besplatan i moguće ga je pokrenuti
+uz vrlo malo konfiguracije pomoću \emph{docker-composea}. \\
+Dovoljno je preuzeti datoteku s poveznice
+ \footnote{\url{https://raw.githubusercontent.com/Alethio/ethstats-network-server/master/docker/lite-mode/redis-persistence/docker-compose.yml}} koju 
+ treba izmijeniti za ovu konfiguraciju. \\
+\emph{Ethstats} se sastoji od više servisa koji čine cjelinu. \emph{Docker-compose} nam olakšava pokretanje te nakon podešavanja
+varijabli okruženja unutar \emph{docker-compose.yaml} datoteke moguće je pokrenuti sve servise jednom naredbom.
+\begin{lstlisting}
+  $ docker-compose up -d
+\end{lstlisting}
+Time smo pokrenuli \emph{ethstats server}, \emph{dashboard}, \emph{redis} i \emph{deepstream}.
+Server pribavlja podatke sa čvorova i sprema ih u \emph{Redis} bazu podataka i istovremeno pruža \emph{dashboardu} i \emph{deepstreamu} koji
+su zaduženi za grafički prikaz i analitiku. \\
+Pokretanjem prethodne naredbe dobiva se pogreška koja kaže da se server ne može povezati na \emph{ethstats-cli}. \emph{ethstats-cli} 
+je odvojeni servis koji se treba pokrenuti na svakom čvoru koji se želi pratiti. On je zaslužan za prikupljanje podataka o iskorištenosti
+memorije, procesora i ostalih detalja o sklopovlju. Njegov zatjev je prethodno instaliran \emph{node} verzije novije od 8.11 što se može 
+provjeriti naredbom:
+\begin{lstlisting}
+  $ node -v
+\end{lstlisting}
+Kad je osigurana odgovarajuća verzija \emph{nodea} moguće je globalno instalirati \emph{ethstats-cli} i pokrenuti naredbama:
+\begin{lstlisting}
+  $ npm install -g ethstats-cli
+  $ ethstats-cli --server-url http://192.168.1.217:3000 -r --account-email jakov.buratovic@fer.hr --node-name pc
+\end{lstlisting}
+Prvim pokretanjem obavlja se registracija čvora pa je zbog toga unesena adresa e-pošte i proizvoljan naziv čvora. IP adresa u argumentu
+"--server-url" jest IP adresa računala na kojem će biti pokrenut \emph{ethstats-server}. U ovom primjeru je to prijenosno računalo. \\
+Sada možemo izmijeniti \emph{docker-compose.yaml} datoteku željenim uređivačem teksta. Dovoljno je promijeniti konfiguraciju servisa
+\emph{server} na sljedeći način:
+\begin{lstlisting}
+  server:
+    container_name: ethstats-network-server
+    image: alethio/ethstats-network-server:latest
+    restart: always
+    depends_on:
+      - deepstream
+      - redis
+    ports:
+      - 127.0.0.1:3000:3000
+      - 192.168.1.217:3000:3000
+      - 127.0.0.1:3030:3030
+      - 127.0.0.1:8888:8888
+    environment:
+      - NETWORK_ID=15316
+      - NETWORK_NAME=dev
+\end{lstlisting}
+
+U odnosu na zadanu konfiguraciju, dodano je preusmjeravanje unutarnjeg porta 3000 na vanjsko sučelje računala kako bi ostali uređaji
+u lokalnoj mreži mogli vidjeti \emph{ethstats-server} te je izmijenjen identifikator mreže koji je bio postavljen na vrijednost "1" što
+označava glavnu Ethereum mrežu \emph{Ethereum mainnet}. Ako ponovno pokrenemo \emph{docker-compose} trebali bismo uspješno biti povezani
+na čvorove i posjetom adrese "localhost:80" biti će prikazano sučelje.
+
+\begin{figure}[h]
+  \caption{Sučelje \emph{ethstatsa}}
+  \centering
+  \includegraphics[width=\textwidth]{ethstatsDashboard.png}
+\end{figure}
+
+Kao i u \emph{block exploreru} vidljiv je posljednji blok no ovoga puta uz više detalja i podacima za svaki čvor posebno.
+Desno od posljednjeg bloka vidimo statistiku o vremenu kreiranju novih blokova. Minimalno vrijeme je 15 sekundi što odgovara konfiguraciji
+no maksimalno vrijeme je 557 sekundi što znači da 557 sekundi nije bilo dovoljno povezanih čvorova u mreži i proizvodnja blokova je stala. \\
+Ispod vidimo listu svih čvorova s osnovnim podacima kao što su brzina odaziva, broj povezanih čvorova na taj čvor, posljednji blok na pojedinom
+čvoru te brzinu propagiranja novog bloka na čvoru. \\
+Iz ove liste vidimo da su svi čvorovi sinkronizirani na istom posljednjem bloku što nam govori da je njihovo sklopovlje dovoljno sposobno
+pokretati ovakav tip mreže. Veće opterećenje se može postići skraćivanjem vremena kreiranja blokova i izvršavanjem složenih programskih
+kodova pametnih ugovora. \\
+Za više detalja potrebno je odabrati čvor čime se otvara novi prikaz u kojem vidimo zauzeće procesora i radne memorije u odabranom
+vremenskom razdoblju.
+\begin{figure}[h]
+  \caption{Opterećenost Cubieboard2 pločice}
+  \centering
+  \includegraphics[width=\textwidth]{ethstatsCubie.png}
+  \vspace{10in}
+\end{figure}
+
+\section{Transakcije i pametni ugovori}
 
 
 

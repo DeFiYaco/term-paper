@@ -10,4 +10,6 @@ Genesis:
 	https://eips.ethereum.org/EIPS/eip-225
 	https://docs.klaytn.com/node/service-chain/references/genesis#config
 	
+Alethio:
+	https://github.com/Alethio/ethereum-lite-explorer
 
