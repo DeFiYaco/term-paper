@@ -2,6 +2,8 @@
 \usepackage{booktabs}
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{graphicx}
+\graphicspath{ {./notes/screenshots/} }
 
 \colorlet{punct}{red!60!black}
 \definecolor{background}{HTML}{EEEEEE}
@@ -313,15 +315,94 @@ Kako bi se to osiguralo koristi se jedan dodatni čvor koji neće sudjelovati u 
 nego će samo listu IP adresa svih dolaznih konekcija čvorova slati nazad čvorovima. Na taj način će čvorovi znati s kim komunicirati.
 Ta uloga je pridijeljena Raspberry Pi pločici prve generacije jer su sklopovski zahtjevi mnogo niži nego za klasični čvor.
 Ovaj čvor zovemo \emph{bootnode}. \\
+Sljedećim naredbama generiramo ključ te pokrećemo \emph{bootnode} na portu 30310. Dodana je opcija -verbosity 9 kako bismo vidjeli
+detaljan ispis događaja u konzoli. \\
 
 \begin{lstlisting}
     $ bootnode -genkey boot.key
+    $ bootnode -nodekey boot.key -verbosity 9 -addr 192.168.1.13:30310
 \end{lstlisting}
+
+\emph{Bootnode} ispisuje svoj identifikator koji treba pospremiti i čeka na čvorove.
+\subsubsection{Uključivanje čvorova}
+Nakon što su svi prethodni koraci uspješno obavljeni preostaje pokrenuti geth čvor na svakom uređaju. Dovoljna je jedna naredba
+kojom se zadaje identifikator \emph{bootnodea} i mreže i adresa novčanika koja će predstavljati čvor. 
+
+\begin{lstlisting}
+  $ geth --datadir node/ --syncmode 'full' --bootnodes 'enode://<identifikator>@192.168.1.13:0?discport=30310' --networkid 15316 --gasprice '1' -unlock '0xBC60333862ccdB3E515d9b274834552ce24739eE' --allow-insecure-unlock --mine
+\end{lstlisting}
+
+
+\begin{figure}[h]
+  \caption{Ispis nakon pokretanja geth procesa}
+  \centering
+  \includegraphics[width=\textwidth]{nodeStart.png}
+\end{figure}
+
+Iz ispisa se može vidjeti kako je nakon upisane lozinke za otključavanje novčanika pokrenuto rudarenje, odnosno kreiranje blokova.
+Kao što je već objašnjeno detaljnije u prethodnom poglavlju, potrebno je imati (N/2)+1 čvorova \emph{online} kako bi se blokovi
+kontinuirano stvarali gdje je N broj adresa navedenih u \emph{genesis.json} datoteci. U slučaju da neki čvor \emph{ispadne},
+blokovi će se stvarati dokle god je dovoljno aktivnih čvorova. Kad se čvor ponovno poveže, on će uskladiti svoje stanje
+s ostalima kako bi povijest bila svugdje jedinstvena. \\
+Novi blok se generira svako 15 sekundi jer je tako zadano prilikom incijalizacije \emph{genesis.json} datotekom. \\
+U isto se vrijeme na \emph{bootnodeu} vide \emph{ping-pong} poruke čvorova što znači da su svi čvorovi uspješno povezani i međusobno
+vidljivi.
+
+\begin{figure}[h]
+  \caption{Komunikacija čvorova i \emph{bootnodea}}
+  \centering
+  \includegraphics[width=\textwidth]{bootnode.png}
+\end{figure}
+
+\pagebreak
+\section{Praćenje stanja (engl. \emph{monitoring})}
+U prijašnjem odjeljku je pokrenuta potpuno funkcionalna mreža no korisnicima nije jednostavno pratiti stanje gledajući
+dnevnike (engl. \emph{logs}) iz komandne linije. Postoji mnogo besplatnih dostupnih i otvorenih alata koji nude jednostavniji
+prikaz bitnih podataka u obliku jednostavne web aplikacije koja se povezuje izravno na čvor. Obično se koristi http protokol
+ili websocket veza kako bi se podaci dobavljali.
+\subsection{Pretražitelj blokova (engl. \emph{block explorer})}
+Osnovni dio praćenja stanja je \emph{block explorer}. Pomoću njega se može u realnom vremenu pratiti stanje \emph{blockchaina}
+što podrazumijeva prikaz najvišeg trenutnog bloka (engl. \emph{block height}) te pretraživanje i filtriranje transakcija u 
+pojedinom bloku. \\
+Odabrana je aplikacija \emph{Alethio Ethereum Lite Explorer} zbog svoje jednostavnosti i ažurnosti. To je klijentska
+web aplikacija koja se povezuje na bilo koji \emph{Ethereum} čvor koji ima omogućen udaljen poziv procedura (engl. \emph{RPC}). \\
+Čvorovi postavljeni u prethodnom dijelu nemaju omogućen udaljen poziv procedura. Da ga omogućili potrebno je zaustaviti geth proces
+na odabranom uređaju te ponovno pokrenuti dodavanjem parametara:
+
+\begin{lstlisting}
+  --rpc --rpcaddr 'localhost' --rpcport 8545  --rpcapi 'personal,db,eth,net,web3,txpool,miner' --rpccorsdomain "*"
+\end{lstlisting}
+
+Ovim postupkom je omogućeno spajanje bilo kojeg servisa s istog računala na naš \emph{geth} proces putem porta 8545 i http protokola.
+
+Postoje dva načina pokretanja ove aplikacije, prevođenjem izvornog koda na vlastitom računalu ili već javno dostupnim
+\emph{docker} kontejnerom. Zbog jednostavnosti i niske zahtevnosti, za ovaj projekt je odabran drugi način.
+Jedini preduvjet je imati instaliran \emph{docker} klijent na računalu. Nakon toga se sve pokreće jednom naredbom.
+
+\begin{lstlisting}
+  $ docker run -p 80:80 -e APP_NODE_URL="http://localhost:8545" alethio/ethereum-lite-explorer
+\end{lstlisting}
+
+\emph{Docker} provjerava postoji li već lokalno dostupna slika te ako ne postoji je dohvaća s \emph{Docker Hub} repozitorija.
+Ovim načinom nije potrebno mijenjati konfiguracijsku datoteku već je dovoljno samo dodati varijablu okoline (engl. \emph{environment variable})
+koja aplikaciji daje IP adresu i vrata čvora na koji se potrebno spojiti. \\
+Parametrom "-p 80:80" se prosljeđuje \emph{port} 80 unutar kontejnera na \emph{port} 80 na uređaju na kojem se pokreće kontejner. \\
+Utipkavanjem adrese "localhost:80" u željeni preglednik otvara se aplikacija i prikazuje početni ekran. \\
+Blok 47 na slici je prazan, odnosno niti jedna transakcija se nije dogodila u njemu.
+
+\begin{figure}[h]
+  \caption{Početni ekran pretražitelja blokova}
+  \centering
+  \includegraphics[width=\textwidth]{blockexplorer.png}
+\end{figure}
+
+
 
 \chapter{Zaključak}
 Zaključak.
 
 \bibliography{literatura}
+
 \bibliographystyle{fer}
 
 \begin{sazetak}
