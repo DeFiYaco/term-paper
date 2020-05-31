@@ -333,9 +333,9 @@ kojom se zadaje identifikator \emph{bootnodea} i mreže i adresa novčanika koja
 
 
 \begin{figure}[h]
+  \includegraphics[width=\textwidth]{nodeStart.png}
   \caption{Ispis nakon pokretanja geth procesa}
   \centering
-  \includegraphics[width=\textwidth]{nodeStart.png}
 \end{figure}
 
 Iz ispisa se može vidjeti kako je nakon upisane lozinke za otključavanje novčanika pokrenuto rudarenje, odnosno kreiranje blokova.
@@ -348,9 +348,9 @@ U isto se vrijeme na \emph{bootnodeu} vide \emph{ping-pong} poruke čvorova što
 vidljivi.
 
 \begin{figure}[h]
+  \includegraphics[width=\textwidth]{bootnode.png}
   \caption{Komunikacija čvorova i \emph{bootnodea}}
   \centering
-  \includegraphics[width=\textwidth]{bootnode.png}
 \end{figure}
 
 \pagebreak
@@ -390,9 +390,9 @@ Utipkavanjem adrese "localhost:8080" u željeni preglednik otvara se aplikacija 
 Blok 47 na slici je prazan, odnosno niti jedna transakcija se nije dogodila u njemu.
 
 \begin{figure}[h]
+  \includegraphics[width=\textwidth]{blockexplorer.png}
   \caption{Početni ekran pretražitelja blokova}
   \centering
-  \includegraphics[width=\textwidth]{blockexplorer.png}
 \end{figure}
 
 \subsection{Opterećenost čvorova}
@@ -451,9 +451,9 @@ označava glavnu Ethereum mrežu \emph{Ethereum mainnet}. Ako ponovno pokrenemo 
 na čvorove i posjetom adrese "localhost:80" biti će prikazano sučelje.
 
 \begin{figure}[h]
+  \includegraphics[width=\textwidth]{ethstatsDashboard.png}
   \caption{Sučelje \emph{ethstatsa}}
   \centering
-  \includegraphics[width=\textwidth]{ethstatsDashboard.png}
 \end{figure}
 
 Kao i u \emph{block exploreru} vidljiv je posljednji blok no ovoga puta uz više detalja i podacima za svaki čvor posebno.
@@ -466,14 +466,125 @@ pokretati ovakav tip mreže. Veće opterećenje se može postići skraćivanjem 
 kodova pametnih ugovora. \\
 Za više detalja potrebno je odabrati čvor čime se otvara novi prikaz u kojem vidimo zauzeće procesora i radne memorije u odabranom
 vremenskom razdoblju.
+\pagebreak
+
 \begin{figure}[h]
+  \includegraphics[width=\textwidth]{ethstatsCubie.png}
   \caption{Opterećenost Cubieboard2 pločice}
   \centering
-  \includegraphics[width=\textwidth]{ethstatsCubie.png}
-  \vspace{10in}
+\end{figure}
+
+\emph{Ethstats} je odlično rješenje za nadgledanje više sustava na jednom računalu preko jedinstvenog sučelja. Ako želimo najpreciznije 
+moguće podatke u stvarnom vremenu onda je potrebno na pojedinom uređaju pokrenuti neki servis za nadgledanje iskorištenosti resursa kao
+na primjer \emph{htop} koji je predinstaliran u većini distribucija \emph{Linuxa} i pokreće se izravno iz terminala. Na grafu niže
+je zabilježena prosječna opterećenost procesora na pojedinom uređaju procesom \emph{geth}. Kao što je vidljivo za moderno stolno ili prijenosno računalo opterećenost
+je gotovo zanemariva dok se na \emph{single-board} računalima proces pokazao nešto zahtjevniji. Raspberry Pi 1 jedini na ovom grafu ne bi trebalo izravno uspoređivati
+jer njegov \emph{geth} proces nije obavljao jednak zadatak kao i na ostalim čvorovima. On nije uopće sinkronizirao blokove niti sudjelovao u njihovom stvaranju nego
+je samo služio kao središnja jedinica za pronalaženje čvorova u mreži. Obzirom na njegovo sporije sklopovlje, čak i s tim zadatkom je bio najviše opterećen.
+
+\begin{figure}[h]
+  \caption{Iskorištenost procesora}
+  \centering
+  \includegraphics[width=\textwidth]{cpuUtil.png}
+\end{figure}
+
+\emph{Htop} nam pruža precizne podatke i o postotku zauzeža radne memorije pojedinim procesom. Ovdje je jasno vidljivo kako je Raspberry Pi 1 imao manje zahtjevan
+zadatak te unatoč njegovih 192 MB dostupne memorije, samo je otprilike 20 MB zauzeto \emph{geth} procesom dok na uređajima koji moraju pratiti stanje na \emph{blockchainu}
+proces zahtjeva više memorije. Ponovno, za modernija računala ti zahtjevi nisu visoki dok bi na \emph{single-board} računalima memorija mogla predstavljati usko grlo
+u nekom složenijem sustavu s više pokrenutih procesa u isto vrijeme.
+
+\begin{figure}[h]
+  \caption{Iskorištenost memorije}
+  \centering
+  \includegraphics[width=\textwidth]{ramUtil.png}
 \end{figure}
 
 \section{Transakcije i pametni ugovori}
+Sama mreža nije pretjerano korisna dok su blokovi prazni, odnosno dok se ne odvijaju nikakve transakcije među članovima mreže. Transakcije mogu biti vrlo jednostavne
+kao na primjer slanje određene količine \emph{Ethera} s jednog novčanika na drugi ili složenije kao postavljanje programskog koda u obliku pametnog ugovora ili interakcija
+s već postavljenim pametnim ugovorom te izvršavanje njegovog koda. \\
+Korisnik ima više različitih dostupnih načina izvršavanja transakcija. Najprimitivniji način i isto tako rijetko korišten od strane korisnika jest interakcija putem
+naredbenog retka koristeći \emph{geth cli}. Taj način zahtjeva dobro znanje o naredbama i razumijevanje njihovih akcija. \\
+Osim naredbenog retka, postoje brojne aplikacije koje se mogu povezati na mrežu putem biblioteke te na način prilagođen njenim zahtjevima nuditi određene mogućnosti
+interakcije. Najčešće su te aplikacije pisane u \emph{Javascriptu} i koriste \emph{web3.js}\footnote{\url{https://web3js.readthedocs.io/en/v1.2.8/#}} biblioteku zbog
+jednostavne integracije s web aplikacijama za preglednike i vrlo dobre dokumentacije.
+Za ovaj rad je odabran \emph{Metamask}\footnote{\url{https://metamask.io/}}, klijentska aplikacija za upravljanje novčanicima i izvođenje i potpisivanje transakcija. 
+Dostupna je kao ekstenzija za \emph{Chromium} i \emph{Firefox} preglednike ili kao mobilna \emph{iOS} ili \emph{Android} aplikacija. \\
+\subsection{Slanje i primanje Ethera}
+Nakon instalacije \emph{Metamask} aplikacije u preglednik, otvara se njeno sučelje te traži korisnika da izradi novi novčanik ili se prijavi s već postojećim.
+Kako su prethodno već generirani novčanici koje koriste čvorovi, potrebno je njih ubaciti. Da bismo ubacili postojeći novčanik u metamask potrebno je znati ili
+privatni ključ novčanika ili koristiti \emph{json} datoteku koja je automatski izrađena prilikom generiranja novčanika \emph{gethom}. Tajna datoteka se nalazi
+u pod direktoriju \emph{keystore}.
+
+\begin{figure}[h]
+  \centering
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{mmimportprivate.png}
+    \caption{Prijava privatnim ključem}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{mmiportjason.png}
+    \caption{Prijava datotekom}
+  \end{minipage}
+\end{figure}
+
+Nakon što je \emph{Metamask} uspješno postavljen novčanikom može se vidjeti da je trenutno stanje 0 ETH. Razlog tome je što je \emph{Metamask} inicijalno povezan
+na glavnu \emph{Ethereum} mrežu, \emph{mainnet}. Potrebno je podesiti aplikaciju da bude povezana na neki od čvorova privatne mreže. Treba odabrati \emph{Localhost 8545}
+jer je čvor na računalu s \emph{Metamask} klijentom dostupan preko unaprijed zadanog porta 8545. 
+
+\pagebreak
+
+\begin{figure}[h]
+  \includegraphics[scale=0.5]{mmnetworkdd.png}
+  \caption{Odabir mreže}
+  \centering
+\end{figure}
+
+Ako se \emph{Metamask} uspješno povezao na čvor, pisat će stanje na novčaniku. To stanje odgovara inicijalnom stanju zadanom u \emph{genesis.json} datoteci ukoliko
+nisu već provedene transakcije. Kako je u ovom primjeru zadana vrlo visoka vrijednost koja u primjerice glavnoj mreži ne bi uopće bila moguća, prikaz nije idealno
+formatiran no to neće umanjiti funkcionalnosti.
+
+\begin{figure}[h]
+  \includegraphics[scale=0.4]{mmimported.png}
+  \caption{Stanje}
+  \centering
+\end{figure}
+
+Odabirom gumba \emph{Send} otvara se novi prikaz u koji je moguće upisati adresu novčanika primatelja i željeni iznos za transakciju. Ispod polja za upis iznosa
+postoji mogućnost odabira provizije koja će biti utrošena prilikom provedbe transakcije. U \emph{proof of authority} ta opcija nije važna, odnosno nema razlike u brzini
+izvođenja transakcije. Najbolje je odabrati najnižu vrijednost ili upisati ručno. Te vrijednosti su zanemarive u odnosu na stanje koje je na novčaniku tako da niti veća
+provizija neće biti značajna u ovom slučaju. Provizija se dijeli čvorovima u mreži koji su navedeni u \emph{genesis.json} datoteci te tako ostaje u cirkulaciji.
+
+\begin{figure}[h]
+  \centering
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{mmsendtocubie.png}
+    \caption{Slanje transakcije}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{sent.png}
+    \caption{Pregled i potvrda}
+  \end{minipage}
+\end{figure}
+
+Nakon što je transakcija poslana ona se objavljuje čvoru koji ju provjerava i potom uključuje u idući blok, daje joj identifikator i propagira ju ostalim čvorovima.
+U najviše 15 sekundi bi se novi blok trebao stvoriti s tom transakcijom. To će biti jasno vidljivo u pretražitelju blokova. Odabirom bloka i transakcije u njemu se otvara 
+prikaz detalja o toj transakciji kao što su identifikator, adrese primatelja i pošiljatelja, iznos koji je poslan i provizija koja je utrošena. U gornjem dijelu postoji
+informacija o broju potvrda. To je podatak koji govori koliko je blokova generirano nakon bloka s tom transakcijom.
+
+\pagebreak
+
+\begin{figure}[h]
+  \includegraphics[scale=0.4]{blocktx.png}
+  \caption{Prva transakcija}
+  \centering
+  \vfill
+\end{figure}
+
+\subsection{Pametni ugovori}
+
 
 
 
