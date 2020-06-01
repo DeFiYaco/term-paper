@@ -546,7 +546,7 @@ nisu već provedene transakcije. Kako je u ovom primjeru zadana vrlo visoka vrij
 formatiran no to neće umanjiti funkcionalnosti.
 
 \begin{figure}[h]
-  \includegraphics[scale=0.4]{mmimported.png}
+  \includegraphics[width=\textwidth]{mmimported.png}
   \caption{Stanje}
   \centering
 \end{figure}
@@ -577,13 +577,68 @@ informacija o broju potvrda. To je podatak koji govori koliko je blokova generir
 \pagebreak
 
 \begin{figure}[h]
-  \includegraphics[scale=0.4]{blocktx.png}
+  \includegraphics[width=\textwidth]{blocktx.png}
   \caption{Prva transakcija}
   \centering
   \vfill
 \end{figure}
 
 \subsection{Pametni ugovori}
+Pametni ugovori su ono što Ethereum razlikuje od običnih kriptovaluta koje služe samo za razmjenu vrijednosti putem transakcija. Danas postoji velik broj postavljenih 
+pametnih ugovora na glavnoj Ethereum mreži. Postavaljanje pametnog ugovora je transakcija kojom se šalje prevedeni kod pametnog ugovora na \emph{blockchain}.
+Kod se piše u objektno orjentiranom jeziku \emph{Solidity} i prevodi koristeći \emph{solc}, prevoditelj za Solidity. Prevođenjem programskog koda dobiva se binarna datoteka
+i aplikacijsko binarno sučelje (engl. \emph{ABI - application binary interface}). \emph{ABI} služi kao sučelje za interakciju s pametnim ugovorom. Nakon što je kod
+proveden potrebno je postaviti produkte prevođenja na \emph{blockchain}.
+\subsubsection{Kod i prevođenje}
+Najjednostavniji način za isprobati \emph{Solidity} i pametne ugovore je koristeći službeni \emph{Ethereumov IDE Remix}\footnote{\url{https://remix.ethereum.org/}}. 
+To je web aplikacija koja se također može povezati na bilo koji \emph{Ethereum} čvor ali i naravno na glavnu mrežu u kojoj je moguće pisati programski kod
+pametnih ugovora u \emph{Solidity} programskom jeziku. Iz iste aplikacije je moguće korištenjem ugrađenih dodataka prevesti taj kod i postaviti ga na mrežu.
+Upravo iz tog razloga je idealan alat za brzo isprobavanje ili testiranje pametnih ugovora jer nije potrebno postavljati kompleksna razvojna okruženja. \\
+Otvaranjem početne stranice, s lijeve strane je prikazan pretražitelj datoteka. Tu se nalazi nekoliko jednostavnih primjera pametnih ugovora koji su dovoljni
+za demonstriranje samog toka događaja pa iz tog razloga za ovaj rad nije pisan nikakav kompleksniji kod. \emph{Solidity} datoteke imaju nastavak \emph{.sol}
+pa ih je lako prepoznati. \\
+Za ovaj rad će se koristiti prvi primjer \emph{1\_Storage.sol} pa ga je potrebno otvoriti s dva klika kako bi se prikazao njegov izvorni kod.
+U prvom liniji koda definirane su valjane verzije \emph{Solidity} jezika u kojima će se ovaj kod možći uspšješno prevesti. To je vrlo važno jer je jezik
+nov i vrlo brzo izlaze nova izdanja koja mijenjaju bitne stvari pa iz tog razloga starija sintaksa neće biti valjano prevedena s novijim prevoditeljem. Također je moguće
+navesti raspon verzija kao što je u ovom primjeru stavljeno. \\
+Nakon definiranja verzije, ključnom riječi \emph{contract} definira se naziv ugovora. Kako je \emph{Solidity} objektno orjentiran jezik, ta ključna riječ odgovara 
+riječi \emph{class} u primjerice \emph{Java} jeziku. Unutar tijela ugovora se definiraju metode i varijable. Metode mogu biti označene s ključnom riječi \emph{view} što
+znači da ta metoda ne upisuje ništa na \emph{blockchain} nego samo pribavlja i čita podatke s njega. Izvođenje takvih metoda je besplatno za razliku od metoda koje
+upisuju podatke. Svako upisivanje na \emph{blockchain} zahtjeva transakciju koja mora biti uključena u blok što košta. \\
+Ovaj ugovor ima dvije vrlo jednostavne metode. Jedna metoda upisuje broj na \emph{blockchain}, a druga vraća posljednji upisan broj. 
+Varijabla \emph{uint256 number} je varijabla koja je pohranjena u memoriji samog ugovora. Metoda \emph{store} prima kao argument \emph{uint256} broj koji postavlja 
+varijablu ugovora na unesenu vrijednost. \\
+Nakon što je kod napisan portebno je s lijeve strane odabrati \emph{Solidity compiler} dodatak koji služi za prevođenje koda. U prikazu se odabire verzija prevoditelja
+i ugovor koji korisnik želi prevesti. Odabirom gumba \emph{Compile 1\_Storage.sol}, ugovor je uspješno preveden.
+
+\begin{figure}[h]
+  \includegraphics[width=\textwidth]{remixcompiled.png}
+  \caption{Prevođenje pametnog ugovora}
+  \centering
+  \vfill
+\end{figure}
+
+\pagebreak
+
+Dobivene produkte prevođenja treba postaviti na \emph{blockchain}. U izborniku s lijeve strane treba odabrati dodatak \emph{Deploy and run transactions} što otvara
+prikaz u kojem se odabire okolina. Ukoliko u izborniku nije dostupan taj dodatak potrebno je odabrati posljednju stavku u izborniku, upravitelj dodacima (engl. \emph{Plugin manager})
+u čije s polje za pretraživanje može upisati ključna riječ \emph{deploy} i aktivirati dodatak pritiskom na gumb \emph{activate}.
+Dostupne su tri okoline, \emph{Javascript VM, Injected Web3} i \emph{Web3} provider. \\
+\emph{Javascript VM} je virutalni stroj koji se izvodi u pregledniku i ne spaja se na stvarne čvorove. To je dobra opcija za testiranje ispravnosti koda prije postavljanja
+na mrežu. Za potrebe ovog rada može poslužiti bilo koja od preostale dvije opcije. Odabirom \emph{Web3 Provider} opcije, \emph{Remix} se izravno spaja na čvor dok odabir
+\emph{Injected Web3} opcije podrazumijeva da korisnik ima postavljen \emph{Metamask} ili neki drugi novčanik u pregledniku koji onda upravlja pozivima i transakcijama.
+Ako je odabran \emph{Web3 Provider} onda treba u istom prikazu odabrati \emph{Ethereum} račun koji će se koristiti za postavljanje ugovora i ograničenje potrošnje
+\emph{gasa}. U slučaju da se koristi \emph{Metamask}, otvara se novi prozor u kojem se od korisnika traži dozvola korištenja \emph{Metamaska} od strane \emph{Remixa}.
+Račun i ograničenje \emph{gasa} se podešavaju u istom prozoru nakon odabira gumba \emph{Deploy} u \emph{Remixu}. \\
+
+\begin{figure}[h]
+  \includegraphics[width=\textwidth]{remixconnect.png}
+  \caption{Postavljanje ugovora}
+  \centering
+  \vfill
+\end{figure}
+
+
 
 
 
