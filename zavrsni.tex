@@ -638,6 +638,42 @@ Račun i ograničenje \emph{gasa} se podešavaju u istom prozoru nakon odabira g
   \vfill
 \end{figure}
 
+U idućem bloku je uključena transakcija koja kreira ugovor na jedinstvenoj adresi, odnosno ugovor posjeduje svoj novčanik čiji je vlasnik sam ugovor. 
+U ovom trenutku je moguće izvršavati programski kod ugovora s bilo kojeg člana mreže jer se on replicirao na svaki čvor prilikom sinkronizacije posljednjeg bloka.
+Vrijednosti varijabli i rezultati izvršavanja metoda ugovora su također usklađeni u svakom čvoru što je vrlo korisna funkcionalnost. Nitko ne može mijenjati stanje
+bez da to svi ostali znaju. \\
+U \emph{Remixu} se pojavljuje novi izbornik koji služi za pozivanje metoda psotavljenog ugovora. Vidi se metoda \emph{store} i \emph{retreive}. Kao što je i napisano
+u kodu, prva metoda prima broj tipa \emph{uint256} te ga postavlja u varijablu pametnog ugovora u idućem bloku. Ta se transakcija plaća vrlo malim iznosom \emph{gasa}
+jer je to operacija upisivanja na \emph{blockchain}. Operacija \emph{retreive} je operacija čitanja što znači da se ona neće pojaviti kao transakcija i potpuno je 
+besplatna. 
+
+\pagebreak
+
+\begin{figure}[h]
+  \centering
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{remixfunctions.png}
+    \caption{Raspoložive metode}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{number5retreived.png}
+    \caption{Dohvaćanje vrijednosti}
+  \end{minipage}
+\end{figure}
+
+\subsubsection{Primjer složenijeg ugovora}
+
+U ovom ugovoru je dozvoljeno bilo kome mijenjati vrijednost varijable. U nekim slučajevima to je željena mogućnost. Za neki drugu funkcionalnost je možda poželjno da
+samo određeni računi smiju upisivati, a svi ostali čitati. Dobar primjer malo složenijeg ugovora je lutrija. \\
+Jednostavan primjer ugovora za lutriju bi dozvoljavao da bilo tko može igrati, odnosno uložiti \emph{Ether} na adresu pametnog ugovora ali da nitko ne može pokrenuti
+izvlačenje sretnog dobitnika osim vlasnika ugovora, odnosno računa koji je postavio ugovor na \emph{blockchain}. Pokretanjem metode za izvlačenje dobitnika nasumično
+se bira jedna adresa novčanika iz liste svih koji su sudjelovali u tom krugu lutrije te se njemu isplaćuje cjelokupan sadržaj novčanika ugovora. Nakon toga se lista
+novčanika prazni i kreće novi krug lutrije. \\
+Ugovor bi bio još bolji kad bi se potpuno izbacio utjecaj vlasnika jer igrači nemaju nikakvu garanciju da će vlasnik ikada pokrenuti izvlačenje. To se može napraviti
+tako da se u kodu napiše da se izvlačenje pokreće samostalno primjerice kad je dovoljan broj različitih novčanika igrao ili kad je dostignuto dovoljno stanje na računu
+samog ugovora.
+
 
 
 
