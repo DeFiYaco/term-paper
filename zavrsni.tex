@@ -68,9 +68,8 @@
 \izvornik
 
 % Dodavanje zahvale ili prazne stranice. Ako ne želite dodati zahvalu, naredbu ostavite radi prazne stranice.
-\zahvala{Zahvaljujem se mentoru doc. dr. sc. Igoru Čavraku na podršci i pomoći pri izradi ovog rada.\\
-Zahvaljujem se i kolegi Ediju Sinovčiću koji se već dulje vrijeme bavi razvojem programskih rješenja
-koji koriste tehnologiju distribuirane knjige te mi je mogao odgovoriti i riješiti sve moje nedoumice.\\
+\zahvala{Zahvaljujem se mentoru doc. dr. sc. Igoru Čavraku i kolegi Ediju Sinovčiću na podršci i pomoći pri izradi ovog rada.\\
+Također se zahvaljujem i svojoj obitelji koja me usmjeravala i pomagala tokom preddiplomskog studija.
 }
 
 \tableofcontents
@@ -85,16 +84,12 @@ To omogućuje da mreža bude potpuno javna i sigurna. Posebnost je što svatko m
 mrežu i objavljivati sadržaj bez ikakvih posebnih dozvola. \\ Za razliku od Bitcoina
 i mnogih drugih implementacija tehnologije distribuirane knjige koji nude mogućnost pohrane podataka
 bez centralnog poslužitelja, Ethereum mreža omogućuje i izvođenje programskog koda u obliku pametnih ugovora.\\
-U ovom radu je prikazano kako se može pokrenuti privatna mreža na različitom sklopovlju s naglaskom
-na ispitivanje najnižih zahtjeva sklopovlja. Dodatno, prikazat ću proces obavljanja transakcija
-i izvođenja programskog koda na čvorovima uz prigodni prikaz sa sučeljem u jednostavnoj web aplikaciji.\\
+U ovom radu je prikazano kako se može pokrenuti privatna mreža na različitom sklopovlju uz  ispitivanje najnižih zahtjeva sklopovlja.
+Dodatno, prikazat će se proces obavljanja transakcija i izvođenja programskog koda na čvorovima uz prigodni prikaz sa sučeljem u jednostavnoj web aplikaciji.\\
 U prvom poglavlju ovog rada, objasnit će se osnove tehnologije distribuirane knjige i njene primjene.\\
-Nakon toga će biti poglavlje usmjereno na Ethereum kao implementaciju navedene tehnologije te prikaz
-i opis njegovih algoritama konsenzusa. \\
-Treće poglavlje je zaduženo za detaljan postupak kreiranja privatne mreže na raznorodnom sklopovlju
-s različitim operativnim sustavima. \\
-U posljednjem poglavlju je na prethodno kreiranu mrežu dodan grafički prikaz aktivnosti mreže i transakcija
-u jednostavnoj web aplikaciji. 
+Nakon toga će biti poglavlje usmjereno na Ethereum kao implementaciju navedene tehnologije algoritmom ograničenih skupova autoriziranih čvorova mreže (engl. \emph{Proof of Authority}). \\
+Posljednje poglavlje je zaduženo za detaljan postupak kreiranja privatne mreže na raznorodnom sklopovlju
+s različitim operativnim sustavima uz dodatak programske podrške za praćenje transakcija i stanja mreže.  
 
 \chapter{Tehnologija glavne raspodijeljene knjige}
 U nastavku ćemo tehnologiju glavne raspodijeljenje knjige (engl. \emph{Distributed Ledger Technology})
@@ -102,14 +97,17 @@ U nastavku ćemo tehnologiju glavne raspodijeljenje knjige (engl. \emph{Distribu
 DLT i blockchain se češto poistovjećuju no to nije u potpunosti ispravno. Bitno je znati da je 
 svaki blockchain DLT s određenim pravilima konsenzusa.
 DLT je baza podataka repliciranog sadržaja na svakom čvoru \emph{peer-to-peer} mreže. Svaki čvor
-mora sadržavati identičnu kopiju kompletnog sadržaja baze podataka i konstantno se ažurira sa susjednim
-čvorovima. \\
+mora sadržavati identičnu kopiju kompletnog sadržaja baze podataka i konstantno se ažurira sa susjednim čvorovima. \\
 Kod blockchaina se te promjene zapisuju u obliku transakcije u blokove koji formiraju neprekidan lanac.
-Odatle dolazi i sam naziv tehnologije. Prije nego što se novi blok transakcija poveže u postojeći lanac
+Odatle dolazi i sam naziv tehnologije. Čvor koji upisuje transakciju u blok prvo sam provjeri njenu ispravnost pa je onda odašilje povezanim čvorovima.
+Čvorovi koji primaju novu transakciju potrvđuju njenu valjanost i uključuju ju u idući blok. Prije nego što se novi blok transakcija poveže u postojeći lanac
 blokova, on mora biti potvrđen od većine čvorova prema poznatim pravilima konsenzusa koji se koristi
 u toj implementaciji mreže. Nakon što je blok povezan, sve transakcije zabilježene ostaju zauvijek i
-šanse za maliciozne izmjene su vrlo malene. Više o mogućim napadima će biti opisano u nastavku jer
-se razlikuju za ovisno o implementaciji. \\
+šanse za maliciozne izmjene su vrlo malene. To su najvažnije karatkteristike DL tehnologije konačnost (engl. \emph{finality}) i nepromjenjivost \emph{immutability}.
+
+\section{Proof of work}
+Prvi algoritam konsenzusa koji se koristio u \emph{blockchain} tehnologiji je bio \emph{proof of work}, odnosno izvršeni rad procesora i utrošena električna energija
+garantira svojstvo konačnosti i nepromjenjivosti. Izvorni primjer ove implementacije je \emph{Bitcoin}. \\
 Bitcoin je najpoznatiji primjer primjene blockchaina u široj populaciji. Njegova mreža je aktivna 
 od siječnja 2009. godine kada je Satoshi Nakamoto potvrdio prvi blok (engl. \emph{genesis}).
 Još uvijek nije poznato tko je Satoshi Nakamoto i je li to uopće stvarna osoba ili naziv za grupu
@@ -125,16 +123,52 @@ Bitcoin te probleme rješava na način da izbacuje centralno sjedište i umjesto
 pravila konsenzusa koja osiguravaju pouzdanost bez povjerenja. \\
 Nakon bitcoina su se pojavili mnogi \emph{forkovi} s manjim ili većim promjenama, obično u veličini
 samih blokova ili brzini potrvrđivanja istih. Oni su obilježili prvu generaciju kriptovaluta. \\
+Kako bi se osigurala nepromjenjivost, računa se sažetak (engl. \emph{hash}) duljine 64 znaka sadržaja blokova. 
+Svaki idući blok u izračunu svog sažetka koristi sažetke svih prijašnjih blokova u lancu i nasumični broj (engl. \emph{nonce}). Nasumični broj se inkrementira od 0
+dok njegova vrijednost u kombinaciji sa sažetcima prijašnjih blokova ne da novi sažetak s ciljanim brojem nula na početku. Taj posao obavljaju validatori, poznati pod nazivom
+rudari (engl. \emph{miners}). Primjer pogađanja je vidljiv na iduće dvije skice [\cite{PoWAsync}]. Prvi izračun koristi \emph{nonce} vrijednosti 1 i daje sažetak s vodeće
+tri nule što ne odgovara trenutnom zahtjevu mreže.
+
+\begin{figure}[ht]
+  \includegraphics[width=\textwidth]{proof-of-work-wrong-result-2.png}
+  \caption{Neuspjeli pokušaj}
+  \centering
+\end{figure}
+
+U idućem koraku se vrijednost \emph{nonce} povećava za jedan što daje ispravno rješenje. Čvor koji je prvi došao do rješenja problema objavljuje svoj rezultat rada mreži
+i za to dobiva nagradu u valuti čije transakcije potvrđuje. Ta nagrada je povod koji ljude privlači da troše resurse kako bi potvrđivali transakcije. Nagrada se sastoji
+od unaprijed određene količine novčića, primjerice \emph{Bitcoina} i provizijama transakcija u bloku koji je potvrdio. 
+
+\begin{figure}[ht]
+  \includegraphics[width=\textwidth]{proof-of-work-right-result-2.png}
+  \caption{Pogodak!}
+  \centering
+\end{figure}
+
+Broj znamenaka nula se određuje težinom rudarenja. U \emph{Bitcoin} mreži se cilja da vrijeme između dva bloka bude oko 10 minuta.
+Ako je u mreži puno rudara i ukupna procesorska snaga je visoka oni će pogoditi sažetak prije tog vremena što rezultira povećanjem vodećih nula za računanje idućih sažetaka. 
+Isto tako, ako u mreži nema dovoljno procesorske snage za pogađanje, zahtjevnost pada i broj vodećih nula sažetka se smanjuje. 
+Najmanja promjena u bilo kojem bloku ili transakciji u cijelosti mijenja sažetak te bi za uspješno izvršavanje maliciozne radnje
+trebalo ponovno pogađati sve sažetke od izmijenjeog bloka i sustići glavni lanac. Pravilo je da uvijek najdulji lanac ostaje i novi blokovi transakcija se nadovezuju na njega.
+Kako bi maliciozni korisnik uspio sustići glavni lanac svojim izmijenjenim blokovima i sažetcima mora imati preko 51\% ukupne procesorske snage cijele mreže rudara.
+U nekim manjim mrežama je to lakše moguće izvesti, no u mreži \emph{Bitcoina} je to vrlo neisplativo jer je ukupna procesorska snaga i utrošak električne energije vrlo visok.
+To je ujedno i glavni nedostatak ovog algoritma. Kako bi se osigurala sigurnost, troši se izrazito velika količina novca i rješenje nije ekološki povoljno.
+
+\section{Proof of Stake}
+Kako bi se riješio problem koji je imao PoW algoritam, 2011. predloženo je novo rješenje u kojem se validiranje transakcija ne bi oslanjalo na utrošak električne energije
+i procesorsku moć. U ovom algoritmu se novi blokovi ne rudare nego prolaze proces kovanja (engl. \emph{forging}). \\
+Nakon svakog bloka se nasumično bira čvor, odnosno validator koji će kovati idući blog.
+
+\section{Proof of Authority}
+
+\chapter{Ethereum}
 2013. godine ruski programer Vitalik Buterin predlaže Ethereum, novu javnu platformu koja koristi 
-dorađeno izdanje Nakamotovog \emph{PoW} konsenzusnog algoritma. Posebnost Ethereuma jest da on nije
-samo raspodijeljena platforma za transakcije, već raspodijeljeni virtualni stroj (engl. \emph{Ethereum Virtual Machine -EVM})
- koji može izvoditi kod poznat pod nazivom pametni ugovor (engl. \emph{smart contract}). \\
+dorađeno izdanje Nakamotovog \emph{Proof of Work} konsenzusnog algoritma. Posebnost Ethereuma jest da on nije
+samo raspodijeljena platforma za transakcije, već raspodijeljeni virtualni stroj (engl. \emph{Ethereum Virtual Machine - EVM})
+ koji može izvoditi programski kod poznat pod nazivom pametni ugovor (engl. \emph{smart contract}). 
 
 
-
-\chapter{Proof of Authority algoritam}
-
-\chapter{PoA mreža na raznovrsnom sklopovlju}
+\chapter{Ethereum mreža na raznovrsnom sklopovlju}
 Glavni zadatak ovog završnog rada bio je postaviti vlastitu mrežu koristeći Ethereum platformu na raznorodnom sklopovlju
 te provjeriti koliko su visoki zahtjevi jedne takve mreže na hardver. Osim same mreže, dodane su još neke osnovne funkcionalnosti
 kako bi se što ovi laboratorijski uvjeti što više približili pravom svijetu te nam ponudili kvalitetnije rezultate. Tako recimo
@@ -202,7 +236,7 @@ Računalo je povezano putem Ethernet sučelja na usmjeritelj (engl. \emph{Router
 Na prijenosnom računalu je instaliran Xubuntu 20 operativni sustav dok je na stolnom računalu instaliran Ubuntu 19.10.
 Oba operativna sustava su redovno ažurirana i imaju postavljene statične IP adrese.
 \section{Geth privatna mreža}
-Geth je službena implementacija Ethereum protocola u programskom jeziku Go. Izvorni kod je javno dostupan na Github platformi. \\
+Geth je službena implementacija Ethereum protocola u programskom jeziku Go. Izvorni kod je javno dostupan na Github platformi. 
 Postavljanje je vrlo dobro opisano u službenoj dokumentaciji. Potrebno ga je instalirati ili pokretati iz docker kontejnera. 
 Za ovaj rad je odabrana klasična instalacija zbog boljih performanci i smanjenja općih troškova (engl. \emph{overhead}).
 Obzirom da svaki uređaj koji je korišten pokreće neku distribuciju linuxa temeljenu na Debianu, instalacija je jednostavna
@@ -299,7 +333,7 @@ uskladiti svoje stanje bez da provjeravaju povijest od prvog bloka, odnosno \emp
 što donosi velika poboljšanja u performancama uz određeni kompromis u sigurnosti algoritma. \\
 Osim tih polja, za \emph{Proof of Authority} je jedino još važno u polje "alloc" dodati sve čvorove kojima će biti dozvoljeno potvrđivati
 nove generirane blokove (engl. \emph{sealing blocks}). Redom adrese navedene su adrese novčanika Raspberry Pi 3 pločice, AMD stolnog računala, Intel prijenosnog
-računala i poslijednje dvije su adrese dvije različite Cubieboard2 pločice. \\
+računala i poslijednje dvije su adrese dvije različite Cubieboard2 pločice. 
 \subsection{Inicijalizacija čvorova}
 Kako bi čvorovi bili ispravno konfigurirani za povezivanje u istu mrežu s jednakim uputama o vremenu kreiranja blokova i ostalih konfiguracijskih
 parametara, potrebno je svaki čvor inicijalizirati istom \emph{genesis.json} datotekom. 
@@ -315,7 +349,7 @@ nego će samo listu IP adresa svih dolaznih konekcija čvorova slati nazad čvor
 Ta uloga je pridijeljena Raspberry Pi pločici prve generacije jer su sklopovski zahtjevi mnogo niži nego za klasični čvor.
 Ovaj čvor zovemo \emph{bootnode}. \\
 Sljedećim naredbama generiramo ključ te pokrećemo \emph{bootnode} na portu 30310. Dodana je opcija -verbosity 9 kako bismo vidjeli
-detaljan ispis događaja u konzoli. \\
+detaljan ispis događaja u konzoli. 
 
 \begin{lstlisting}
     $ bootnode -genkey boot.key
@@ -332,7 +366,7 @@ kojom se zadaje identifikator \emph{bootnodea} i mreže i adresa novčanika koja
 \end{lstlisting}
 
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \includegraphics[width=\textwidth]{nodeStart.png}
   \caption{Ispis nakon pokretanja geth procesa}
   \centering
@@ -347,7 +381,7 @@ Novi blok se generira svako 15 sekundi jer je tako zadano prilikom incijalizacij
 U isto se vrijeme na \emph{bootnodeu} vide \emph{ping-pong} poruke čvorova što znači da su svi čvorovi uspješno povezani i međusobno
 vidljivi.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \includegraphics[width=\textwidth]{bootnode.png}
   \caption{Komunikacija čvorova i \emph{bootnodea}}
   \centering
@@ -389,7 +423,7 @@ Parametrom "-p 8080:80" se prosljeđuje \emph{port} 80 unutar kontejnera na \emp
 Utipkavanjem adrese "localhost:8080" u željeni preglednik otvara se aplikacija i prikazuje početni ekran. \\
 Blok 47 na slici je prazan, odnosno niti jedna transakcija se nije dogodila u njemu.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \includegraphics[width=\textwidth]{blockexplorer.png}
   \caption{Početni ekran pretražitelja blokova}
   \centering
@@ -450,7 +484,7 @@ u lokalnoj mreži mogli vidjeti \emph{ethstats-server} te je izmijenjen identifi
 označava glavnu Ethereum mrežu \emph{Ethereum mainnet}. Ako ponovno pokrenemo \emph{docker-compose} trebali bismo uspješno biti povezani
 na čvorove i posjetom adrese "localhost:80" biti će prikazano sučelje.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \includegraphics[width=\textwidth]{ethstatsDashboard.png}
   \caption{Sučelje \emph{ethstatsa}}
   \centering
@@ -468,7 +502,7 @@ Za više detalja potrebno je odabrati čvor čime se otvara novi prikaz u kojem 
 vremenskom razdoblju.
 \pagebreak
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \includegraphics[width=\textwidth]{ethstatsCubie.png}
   \caption{Opterećenost Cubieboard2 pločice}
   \centering
@@ -482,7 +516,7 @@ je gotovo zanemariva dok se na \emph{single-board} računalima proces pokazao ne
 jer njegov \emph{geth} proces nije obavljao jednak zadatak kao i na ostalim čvorovima. On nije uopće sinkronizirao blokove niti sudjelovao u njihovom stvaranju nego
 je samo služio kao središnja jedinica za pronalaženje čvorova u mreži. Obzirom na njegovo sporije sklopovlje, čak i s tim zadatkom je bio najviše opterećen.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \caption{Iskorištenost procesora}
   \centering
   \includegraphics[width=\textwidth]{cpuUtil.png}
@@ -493,7 +527,7 @@ zadatak te unatoč njegovih 192 MB dostupne memorije, samo je otprilike 20 MB za
 proces zahtjeva više memorije. Ponovno, za modernija računala ti zahtjevi nisu visoki dok bi na \emph{single-board} računalima memorija mogla predstavljati usko grlo
 u nekom složenijem sustavu s više pokrenutih procesa u isto vrijeme.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \caption{Iskorištenost memorije}
   \centering
   \includegraphics[width=\textwidth]{ramUtil.png}
@@ -509,14 +543,14 @@ Osim naredbenog retka, postoje brojne aplikacije koje se mogu povezati na mrežu
 interakcije. Najčešće su te aplikacije pisane u \emph{Javascriptu} i koriste \emph{web3.js}\footnote{\url{https://web3js.readthedocs.io/en/v1.2.8/#}} biblioteku zbog
 jednostavne integracije s web aplikacijama za preglednike i vrlo dobre dokumentacije.
 Za ovaj rad je odabran \emph{Metamask}\footnote{\url{https://metamask.io/}}, klijentska aplikacija za upravljanje novčanicima i izvođenje i potpisivanje transakcija. 
-Dostupna je kao ekstenzija za \emph{Chromium} i \emph{Firefox} preglednike ili kao mobilna \emph{iOS} ili \emph{Android} aplikacija. \\
+Dostupna je kao ekstenzija za \emph{Chromium} i \emph{Firefox} preglednike ili kao mobilna \emph{iOS} ili \emph{Android} aplikacija. 
 \subsection{Slanje i primanje Ethera}
 Nakon instalacije \emph{Metamask} aplikacije u preglednik, otvara se njeno sučelje te traži korisnika da izradi novi novčanik ili se prijavi s već postojećim.
 Kako su prethodno već generirani novčanici koje koriste čvorovi, potrebno je njih ubaciti. Da bismo ubacili postojeći novčanik u metamask potrebno je znati ili
 privatni ključ novčanika ili koristiti \emph{json} datoteku koja je automatski izrađena prilikom generiranja novčanika \emph{gethom}. Tajna datoteka se nalazi
 u pod direktoriju \emph{keystore}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \begin{minipage}[b]{0.4\textwidth}
     \includegraphics[width=\textwidth]{mmimportprivate.png}
@@ -535,7 +569,7 @@ jer je čvor na računalu s \emph{Metamask} klijentom dostupan preko unaprijed z
 
 \pagebreak
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \includegraphics[scale=0.5]{mmnetworkdd.png}
   \caption{Odabir mreže}
   \centering
@@ -545,7 +579,7 @@ Ako se \emph{Metamask} uspješno povezao na čvor, pisat će stanje na novčanik
 nisu već provedene transakcije. Kako je u ovom primjeru zadana vrlo visoka vrijednost koja u primjerice glavnoj mreži ne bi uopće bila moguća, prikaz nije idealno
 formatiran no to neće umanjiti funkcionalnosti.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \includegraphics[width=\textwidth]{mmimported.png}
   \caption{Stanje}
   \centering
@@ -556,7 +590,7 @@ postoji mogućnost odabira provizije koja će biti utrošena prilikom provedbe t
 izvođenja transakcije. Najbolje je odabrati najnižu vrijednost ili upisati ručno. Te vrijednosti su zanemarive u odnosu na stanje koje je na novčaniku tako da niti veća
 provizija neće biti značajna u ovom slučaju. Provizija se dijeli čvorovima u mreži koji su navedeni u \emph{genesis.json} datoteci te tako ostaje u cirkulaciji.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \begin{minipage}[b]{0.4\textwidth}
     \includegraphics[width=\textwidth]{mmsendtocubie.png}
@@ -576,7 +610,7 @@ informacija o broju potvrda. To je podatak koji govori koliko je blokova generir
 
 \pagebreak
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \includegraphics[width=\textwidth]{blocktx.png}
   \caption{Prva transakcija}
   \centering
@@ -611,7 +645,7 @@ varijablu ugovora na unesenu vrijednost. \\
 Nakon što je kod napisan portebno je s lijeve strane odabrati \emph{Solidity compiler} dodatak koji služi za prevođenje koda. U prikazu se odabire verzija prevoditelja
 i ugovor koji korisnik želi prevesti. Odabirom gumba \emph{Compile 1\_Storage.sol}, ugovor je uspješno preveden.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \includegraphics[width=\textwidth]{remixcompiled.png}
   \caption{Prevođenje pametnog ugovora}
   \centering
@@ -629,9 +663,9 @@ na mrežu. Za potrebe ovog rada može poslužiti bilo koja od preostale dvije op
 \emph{Injected Web3} opcije podrazumijeva da korisnik ima postavljen \emph{Metamask} ili neki drugi novčanik u pregledniku koji onda upravlja pozivima i transakcijama.
 Ako je odabran \emph{Web3 Provider} onda treba u istom prikazu odabrati \emph{Ethereum} račun koji će se koristiti za postavljanje ugovora i ograničenje potrošnje
 \emph{gasa}. U slučaju da se koristi \emph{Metamask}, otvara se novi prozor u kojem se od korisnika traži dozvola korištenja \emph{Metamaska} od strane \emph{Remixa}.
-Račun i ograničenje \emph{gasa} se podešavaju u istom prozoru nakon odabira gumba \emph{Deploy} u \emph{Remixu}. \\
+Račun i ograničenje \emph{gasa} se podešavaju u istom prozoru nakon odabira gumba \emph{Deploy} u \emph{Remixu}. 
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \includegraphics[width=\textwidth]{remixconnect.png}
   \caption{Postavljanje ugovora}
   \centering
@@ -649,7 +683,7 @@ besplatna.
 
 \pagebreak
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \begin{minipage}[b]{0.4\textwidth}
     \includegraphics[width=\textwidth]{remixfunctions.png}
@@ -673,11 +707,6 @@ novčanika prazni i kreće novi krug lutrije. \\
 Ugovor bi bio još bolji kad bi se potpuno izbacio utjecaj vlasnika jer igrači nemaju nikakvu garanciju da će vlasnik ikada pokrenuti izvlačenje. To se može napraviti
 tako da se u kodu napiše da se izvlačenje pokreće samostalno primjerice kad je dovoljan broj različitih novčanika igrao ili kad je dostignuto dovoljno stanje na računu
 samog ugovora.
-
-
-
-
-
 
 \chapter{Zaključak}
 Zaključak.
