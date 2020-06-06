@@ -1,4 +1,4 @@
-\documentclass[times, utf8, zavrsni]{fer}
+\documentclass[times, utf8, zavrsni, numeric]{fer}
 \usepackage{booktabs}
 \usepackage{listings}
 \usepackage{xcolor}
@@ -92,9 +92,9 @@ Posljednje poglavlje je zaduženo za detaljan postupak kreiranja privatne mreže
 s različitim operativnim sustavima uz dodatak programske podrške za praćenje transakcija i stanja mreže.  
 
 \chapter{Tehnologija glavne raspodijeljene knjige}
-U nastavku ćemo tehnologiju glavne raspodijeljenje knjige (engl. \emph{Distributed Ledger Technology})
+U nastavku ćemo tehnologiju glavne raspodjeljenje knjige (engl. \emph{Distributed Ledger Technology})
  referencirati kraće po kratici engleskog naziva, odnosno DLT. \\ 
-DLT i blockchain se češto poistovjećuju no to nije u potpunosti ispravno. Bitno je znati da je 
+DLT i blockchain se često poistovjećuju no to nije u potpunosti ispravno. Bitno je znati da je 
 svaki blockchain DLT s određenim pravilima konsenzusa.
 DLT je baza podataka repliciranog sadržaja na svakom čvoru \emph{peer-to-peer} mreže. Svaki čvor
 mora sadržavati identičnu kopiju kompletnog sadržaja baze podataka i konstantno se ažurira sa susjednim čvorovima. \\
@@ -103,7 +103,7 @@ Odatle dolazi i sam naziv tehnologije. Čvor koji upisuje transakciju u blok prv
 Čvorovi koji primaju novu transakciju potrvđuju njenu valjanost i uključuju ju u idući blok. Prije nego što se novi blok transakcija poveže u postojeći lanac
 blokova, on mora biti potvrđen od većine čvorova prema poznatim pravilima konsenzusa koji se koristi
 u toj implementaciji mreže. Nakon što je blok povezan, sve transakcije zabilježene ostaju zauvijek i
-šanse za maliciozne izmjene su vrlo malene. To su najvažnije karatkteristike DL tehnologije konačnost (engl. \emph{finality}) i nepromjenjivost \emph{immutability}.
+šanse za maliciozne izmjene su vrlo malene. To su najvažnije karakteristike DL tehnologije konačnost (engl. \emph{finality}) i nepromjenjivost \emph{immutability}.
 
 \section{Proof of work}
 Prvi algoritam konsenzusa koji se koristio u \emph{blockchain} tehnologiji je bio \emph{proof of work}, odnosno izvršeni rad procesora i utrošena električna energija
@@ -111,7 +111,7 @@ garantira svojstvo konačnosti i nepromjenjivosti. Izvorni primjer ove implement
 Bitcoin je najpoznatiji primjer primjene blockchaina u široj populaciji. Njegova mreža je aktivna 
 od siječnja 2009. godine kada je Satoshi Nakamoto potvrdio prvi blok (engl. \emph{genesis}).
 Još uvijek nije poznato tko je Satoshi Nakamoto i je li to uopće stvarna osoba ili naziv za grupu
-ljudi koji su sudjelovali u tazvoju bitcoina. Problem koji bitcoin pokušava riješiti je centraliziranost
+ljudi koji su sudjelovali u razvoju bitcoina. Problem koji bitcoin pokušava riješiti je centraliziranost
 ekonomskog sustava i plaćanja. Svaka transkacija u trenutnom sustavu mora proći kroz centralno sjedište,
 odnosno banku. To znači da korisnici moraju vjerovati centralnom sjedištu da će provesti transakcije
 kako korisnik želi i da se neće ponašati maliciozno. Također, korisnici moraju vjerovati u sigurnost
@@ -119,14 +119,14 @@ centralnog sjedišta i mogućnost zaštite od napada od treće strane. \\
 Za takav način je potreban velik broj ljudi, novca i kontrole što dovodi dodatna ograničenja kao što 
 su čekanje na potvrdu transakcije dulje vrijeme, nemogućnost obavljanja transakcija vikendom i praćenje
 toka novca. \\
-Bitcoin te probleme rješava na način da izbacuje centralno sjedište i umjesto njega koristi \emph{Proof of Work}
+Bitcoin te probleme rješava tako da izbacuje centralno sjedište i umjesto njega koristi \emph{Proof of Work}
 pravila konsenzusa koja osiguravaju pouzdanost bez povjerenja. \\
 Nakon bitcoina su se pojavili mnogi \emph{forkovi} s manjim ili većim promjenama, obično u veličini
 samih blokova ili brzini potrvrđivanja istih. Oni su obilježili prvu generaciju kriptovaluta. \\
 Kako bi se osigurala nepromjenjivost, računa se sažetak (engl. \emph{hash}) duljine 64 znaka sadržaja blokova. 
 Svaki idući blok u izračunu svog sažetka koristi sažetke svih prijašnjih blokova u lancu i nasumični broj (engl. \emph{nonce}). Nasumični broj se inkrementira od 0
 dok njegova vrijednost u kombinaciji sa sažetcima prijašnjih blokova ne da novi sažetak s ciljanim brojem nula na početku. Taj posao obavljaju validatori, poznati pod nazivom
-rudari (engl. \emph{miners}). Primjer pogađanja je vidljiv na iduće dvije skice [\cite{PoWAsync}]. Prvi izračun koristi \emph{nonce} vrijednosti 1 i daje sažetak s vodeće
+rudari (engl. \emph{miners}). Primjer pogađanja je vidljiv na iduće dvije skice \citep{PoWAsync}. Prvi izračun koristi \emph{nonce} vrijednosti 1 i daje sažetak s vodeće
 tri nule što ne odgovara trenutnom zahtjevu mreže.
 
 \begin{figure}[ht]
@@ -149,17 +149,65 @@ Broj znamenaka nula se određuje težinom rudarenja. U \emph{Bitcoin} mreži se 
 Ako je u mreži puno rudara i ukupna procesorska snaga je visoka oni će pogoditi sažetak prije tog vremena što rezultira povećanjem vodećih nula za računanje idućih sažetaka. 
 Isto tako, ako u mreži nema dovoljno procesorske snage za pogađanje, zahtjevnost pada i broj vodećih nula sažetka se smanjuje. 
 Najmanja promjena u bilo kojem bloku ili transakciji u cijelosti mijenja sažetak te bi za uspješno izvršavanje maliciozne radnje
-trebalo ponovno pogađati sve sažetke od izmijenjeog bloka i sustići glavni lanac. Pravilo je da uvijek najdulji lanac ostaje i novi blokovi transakcija se nadovezuju na njega.
+trebalo ponovno pogađati sve sažetke od izmijenjenog bloka i sustići glavni lanac. Pravilo je da uvijek najdulji lanac ostaje i novi blokovi transakcija se nadovezuju na njega.
 Kako bi maliciozni korisnik uspio sustići glavni lanac svojim izmijenjenim blokovima i sažetcima mora imati preko 51\% ukupne procesorske snage cijele mreže rudara.
 U nekim manjim mrežama je to lakše moguće izvesti, no u mreži \emph{Bitcoina} je to vrlo neisplativo jer je ukupna procesorska snaga i utrošak električne energije vrlo visok.
 To je ujedno i glavni nedostatak ovog algoritma. Kako bi se osigurala sigurnost, troši se izrazito velika količina novca i rješenje nije ekološki povoljno.
 
 \section{Proof of Stake}
 Kako bi se riješio problem koji je imao PoW algoritam, 2011. predloženo je novo rješenje u kojem se validiranje transakcija ne bi oslanjalo na utrošak električne energije
-i procesorsku moć. U ovom algoritmu se novi blokovi ne rudare nego prolaze proces kovanja (engl. \emph{forging}). \\
-Nakon svakog bloka se nasumično bira čvor, odnosno validator koji će kovati idući blog.
+i procesorsku moć. U ovom algoritmu se nove blokove ne stvaraju rudari nego kovači (engl. \emph{forgers}). \\ Umjesto da se pouzdanost \emph{blockchaina} oslanja
+na procesorsku moć i utrošenu električnu energiju u ovom algoritmu se gleda validatorov ekonomski ulog u mreži. Skup validatora naizmjenice predlažu
+i glasaju za idući blok. Težina glasa validatora izravno ovisi o količini uloga. Prednosti ovog algoritma su sigurnost, smanjen rizik centralizacije i 
+energijska efikasnost.\citep{PoSGithub}. \\
+Kako bi čvor postao validator, potrebno je obaviti poseban tip transakcije kojim korisnik zaključava određeni ulog. Dok god je ulog zaključan, validator ima šansu
+postati tvorac sljedećeg bloka. Uložena sredstva je moguće u bilo kojem trenutku otključati i ponovno koristiti za transakcije no time se gube glasovi tog validatora u mreži.
+Kako bi se spriječila manipulacija mreže, nije dovoljno biti samo \emph{najbogatiji} u mreži već se gledaju i drugi kriteriji. Prvi je vrijeme proteklo od uloga tokena.
+Validator čiji je ulog dulje zaključan ima veću šansu biti odabran kao sljedeći kovač bloka. Nakon što je validator stvorio blok, njegova duljina uloga se resetira kako
+bi drugi validatori imali veću šansu postati kovači idućeg bloka.\citep{posMedium} \\
+Primjer kako  odabrati kovača idućeg bloka je opisan u nastavku\citep{posGraphic}. 
+\begin{figure}[ht]
+  \centering
+  \begin{minipage}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{pos1.png}
+    \caption{Transakcija}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.5\textwidth}
+    \includegraphics[width=\textwidth]{pos2.png}
+    \caption{Biranje kovača}
+  \end{minipage}
+\end{figure}
+
+\pagebreak
+U ovom primjeru se pretpostavlja da je moguće imati samo jednu transakciju po bloku i da su svi članovi zaključali svoje tokene u isto vrijeme.
+Na prvoj slici vidimo šest učesnika u mreži. Učesnik broj 3 šalje tokene vrijednosti 20 USD učesniku broj 5. Tu transakciju treba uključiti u sljedeći blok kako bi bila valjana.
+Učesnici broj jedan, dva i šest su uložili i svoje novce kako bi mogli postati kovačima. Ukupan ulog u mreži je 300 USD u tokenima. Kako su svi uložili tokene u isto vrijeme,
+glavni faktor pri biranju kovača je količina zaključanih tokena. Učesnik broj 2 ima polovinu ukupnog uloga u mreži što mu daje čak 50\% šanse da postane kovač.
+Učesnik broj 6 ima 33\% šanse dok broj 1 ima samo 17\% šanse da validaraju blok. Odabran je broj 2 koji mora provjeriti valjanost transakcije i uključiti blok u lanac.
+Za to mu nije potrebno snažno računalo. Kao nagradu za validaciju transakcije je dobio proviziju koju je platio učesnik broj 3 prilikom slanja tokena. \\
+Najveći problem u \emph{proof of stake} algoritmu je početna distribucija tokena. Kako količina tokena koju čvor posjeduje definira jačinu i važnost u mreži potrebno
+je pronaći rješenje za taj problem. Jedno od rješenja je predložio \emph{Ethereum}, početi kao \emph{proof of work} mreža i s vremenom se prebaciti na \emph{proof of stake}.
+To bi osiguralo ravnomjernu podjelu tokena rudarima i ostalim korisnicima mreže. Da bi rezultat tog procesa bio što bolji potrebno je mnogo vremena da se prirodnim 
+tokom sredstava raspodijeli bogatstvo na velik broj novčanika. \\
+Dodatno, ako validatori ne izvršavaju svoje dužnosti i potrđuju neispravne transakcije za to bivaju kažnjavani odzimanjem uloženih tokena. Vrijednost uloženih tokena je
+uvijek mnogo viša od nagrade za validiranje što znači da se učesnicima ne isplati riskirati ulog i varati.
 
 \section{Proof of Authority}
+\emph{Proof of Authority} ili dokaz o autoritetu jest modificiran oblik \emph{proof of stake} algoritma. Umjesto uloga novčane vrijednosti u tokenima, u ovom algoritmu
+sam identitet validatora ima funkciju uloga. Identitet u ovom kontekstu znači pripadnost validatorove osobne identifikacije identitetu na platformi, odnosno
+sigurnost da je validator osoba koja tvrdi da je. Kao i u \emph{PoS} algoritmu, identitet kao forma uloga je oskudan. No za razliku od njega, ovdje jedan identitet odgovara
+jednoj osobi.\citep{poa1} \\
+Samo potvrđeni identiteti mogu stvarati blokove. Nije potrebno ulagati tokene niti trošiti veliku količinu energije. Jedini zahtjev je da se identitet nalazi na listi
+dopuštenih validatora. Ta lista može biti statična ili dinamična. Statična lista identiteta je definirana u specifikaciji prvog bloka \engl{genesis}. Nije moguće naknadno
+izmijeniti tu listu. U drugom slučaju, listu je moguće izmijeniti tako da postojeći identiteti s liste dodaju nove ili brišu postojeće ako se oni ponašaju maliciozno.\citep{poa2} \\
+Vrlo je lako primjetiti da ovaj način dopušta puno veću centraliziranost od preostalih algoritama konsenzusa. Iz tog mu osnovna namjena nisu javne mreže nego manje mreže,
+obično unutar nekih tvrtki ili zatvorenih sustava. U takvom okruženju nije bitno prikupljanje nagrada validiranjem transakcija pa su provizije najmanje moguće.
+Osim niskih provizija, stvaranje novih blokova može biti vrlo brzo uz izrazito niske zahtjeve sklopovlja čvorova u mreži. Primjerice, testna mreža \emph{Ethereuma, Kovan}
+radi na \emph{PoA} algoritmu i u njoj se novi blokovi stvaraju svakih 5 sekundi. To omogućava izvođenje programa kojima je važna brzina distribucije informacija po mreži. \\
+Najpoznatija implementacija ovog algoritma je \emph{Clique}, dio službene \emph{Ethereum Geth} implementacije pisane u programskom jeziku \emph{Go}.
+\emph{Clique} spada među implementacije u kojima se dinamički mogu mijenjati identiteti u listi. Skupovi blokova formiraju epohe. Nakon kraja svake epohe se objavljuje
+poseban tranzicijski blok čiji je sadržaj nova lista autoriteta koji će imati ovlasti potpisivati i transakcije u idućoj epohi.
 
 \chapter{Ethereum}
 2013. godine ruski programer Vitalik Buterin predlaže Ethereum, novu javnu platformu koja koristi 
