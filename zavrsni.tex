@@ -64,8 +64,6 @@
 
 \maketitle
 
-% Ispis stranice s napomenom o umetanju izvornika rada. Uklonite naredbu \izvornik ako želite izbaciti tu stranicu.
-\izvornik
 
 % Dodavanje zahvale ili prazne stranice. Ako ne želite dodati zahvalu, naredbu ostavite radi prazne stranice.
 \zahvala{Zahvaljujem se mentoru doc. dr. sc. Igoru Čavraku i kolegi Ediju Sinovčiću na podršci i pomoći pri izradi ovog rada.\\
@@ -75,19 +73,19 @@ Također se zahvaljujem i svojoj obitelji koja me usmjeravala i pomagala tokom p
 \tableofcontents
 
 \chapter{Uvod}
-Ethereum mnogi znaju kao jednu od najpopularnijih kriptovaluta. Iako je to točno, Ethereum je mnogo
+\emph{Ethereum} mnogi znaju kao jednu od najpopularnijih kriptovaluta. Iako je to točno, \emph{Ethereum} je mnogo
 više od same digitalne valute. To je programska potpora raspodijeljena na mreži računala na kojima je
 moguće razmjenjivati podatke i pokretati računalne programe bez centralnog poslužitelja. 
 Podaci se repliciraju na svaki čvor u mreži. Određenim algoritmima konsenzusa se osigurava 
 nepromjenjivost i pouzdanost. 
 To omogućuje da mreža bude potpuno javna i sigurna. Posebnost je što svatko može koristiti
-mrežu i objavljivati sadržaj bez ikakvih posebnih dozvola. \\ Za razliku od Bitcoina
+mrežu i objavljivati sadržaj bez ikakvih posebnih dozvola. \\ Za razliku od \emph{Bitcoina}
 i mnogih drugih implementacija tehnologije distribuirane knjige koji nude mogućnost pohrane podataka
-bez centralnog poslužitelja, Ethereum mreža omogućuje i izvođenje programskog koda u obliku pametnih ugovora.\\
+bez centralnog poslužitelja, \emph{Ethereum} mreža omogućuje i izvođenje programskog koda u obliku pametnih ugovora.\\
 U ovom radu je prikazano kako se može pokrenuti privatna mreža na različitom sklopovlju uz  ispitivanje najnižih zahtjeva sklopovlja.
 Dodatno, prikazat će se proces obavljanja transakcija i izvođenja programskog koda na čvorovima uz prigodni prikaz sa sučeljem u jednostavnoj web aplikaciji.\\
 U prvom poglavlju ovog rada, objasnit će se osnove tehnologije distribuirane knjige i njene primjene.\\
-Nakon toga će biti poglavlje usmjereno na Ethereum kao implementaciju navedene tehnologije algoritmom ograničenih skupova autoriziranih čvorova mreže (engl. \emph{Proof of Authority}). \\
+Nakon toga će biti poglavlje usmjereno na \emph{Ethereum} kao implementaciju navedene tehnologije algoritmom ograničenih skupova autoriziranih čvorova mreže (engl. \emph{Proof of Authority}). \\
 Posljednje poglavlje je zaduženo za detaljan postupak kreiranja privatne mreže na raznorodnom sklopovlju
 s različitim operativnim sustavima uz dodatak programske podrške za praćenje transakcija i stanja mreže.  
 
@@ -109,10 +107,10 @@ u toj implementaciji mreže. Nakon što je blok povezan, sve transakcije zabilje
 Prvi algoritam konsenzusa koji se koristio u \emph{blockchain} tehnologiji je bio \emph{proof of work},
  odnosno algoritam u kojem izvršeni rad procesora i utrošena električna energija
 garantira svojstvo konačnosti i nepromjenjivosti. Izvorni primjer ove implementacije je \emph{Bitcoin}. \\
-Bitcoin je najpoznatiji primjer primjene blockchaina u široj populaciji. Njegova mreža je aktivna 
+\emph{Bitcoin} je najpoznatiji primjer primjene blockchaina u široj populaciji. Njegova mreža je aktivna 
 od siječnja 2009. godine kada je Satoshi Nakamoto potvrdio prvi blok (engl. \emph{genesis}).
 Još uvijek nije poznato tko je Satoshi Nakamoto i je li to uopće stvarna osoba ili naziv za grupu
-ljudi koji su sudjelovali u razvoju bitcoina. Problem koji bitcoin pokušava riješiti je centraliziranost
+ljudi koji su sudjelovali u razvoju \emph{bitcoina}. Problem koji \emph{bitcoin} pokušava riješiti je centraliziranost
 ekonomskog sustava i plaćanja. Svaka transakcija u trenutnom sustavu mora proći kroz centralno sjedište,
 odnosno banku. To znači da korisnici moraju vjerovati centralnom sjedištu da će provesti transakcije
 kako korisnik želi i da se neće ponašati maliciozno. Također, korisnici moraju vjerovati u sigurnost
@@ -120,9 +118,9 @@ centralnog sjedišta i mogućnost zaštite od napada od treće strane. \\
 Za takav način je potreban velik broj ljudi, novca i kontrole što dovodi dodatna ograničenja kao što 
 su čekanje na potvrdu transakcije dulje vrijeme, nemogućnost obavljanja transakcija vikendom i praćenje
 toka novca. \\
-Bitcoin te probleme rješava tako da izbacuje centralno sjedište i umjesto njega koristi \emph{Proof of Work}
+\emph{Bitcoin} te probleme rješava tako da izbacuje centralno sjedište i umjesto njega koristi \emph{Proof of Work}
 pravila konsenzusa koja osiguravaju pouzdanost bez povjerenja. \\
-Nakon bitcoina su se pojavili mnogi \emph{forkovi} s manjim ili većim promjenama, obično u veličini
+Nakon \emph{bitcoina} su se pojavili mnogi \emph{forkovi} s manjim ili većim promjenama, obično u veličini
 samih blokova ili brzini potrvrđivanja istih. Oni su obilježili prvu generaciju kriptovaluta. \\
 Kako bi se osigurala nepromjenjivost, računa se sažetak (engl. \emph{hash}) duljine 64 znaka sadržaja blokova. 
 Svaki idući blok u izračunu svog sažetka koristi sažetke svih prijašnjih blokova u lancu i nasumični broj (engl. \emph{nonce}). Nasumični broj se inkrementira od 0
@@ -156,7 +154,7 @@ U nekim manjim mrežama je to lakše moguće izvesti, no u mreži \emph{Bitcoina
 To je ujedno i glavni nedostatak ovog algoritma. Kako bi se osigurala sigurnost, troši se izrazito velika količina novca i rješenje nije ekološki povoljno.
 
 \section{Proof of Stake}
-Kako bi se riješio problem koji je imao PoW algoritam, 2011. predloženo je novo rješenje u kojem se validiranje transakcija ne bi oslanjalo na utrošak električne energije
+Kako bi se riješio problem koji je imao \emph{PoW} algoritam, 2011. predloženo je novo rješenje u kojem se validiranje transakcija ne bi oslanjalo na utrošak električne energije
 i procesorsku moć. U ovom algoritmu se nove blokove ne stvaraju rudari nego kovači (engl. \emph{forgers}). \\ Umjesto da se pouzdanost \emph{blockchaina} oslanja
 na procesorsku moć i utrošenu električnu energiju u ovom algoritmu se gleda validatorov ekonomski ulog u mreži. Skup validatora naizmjenice predlažu
 i glasaju za idući blok. Težina glasa validatora izravno ovisi o količini uloga. Prednosti ovog algoritma su sigurnost, smanjen rizik centralizacije i 
@@ -202,7 +200,7 @@ jednoj osobi.\citep{poa1} \\
 Samo potvrđeni identiteti mogu stvarati blokove. Nije potrebno ulagati tokene niti trošiti veliku količinu energije. Jedini zahtjev je da se identitet nalazi na listi
 dopuštenih validatora. Ta lista može biti statična ili dinamična. Statična lista identiteta je definirana u specifikaciji prvog bloka \engl{genesis}. Nije moguće naknadno
 izmijeniti tu listu. U drugom slučaju, listu je moguće izmijeniti tako da postojeći identiteti s liste dodaju nove ili brišu postojeće ako se oni ponašaju maliciozno.\citep{poa2} \\
-Vrlo je lako primijetiti da ovaj način dopušta puno veću centraliziranost od preostalih algoritama konsenzusa. Iz tog mu osnovna namjena nisu javne mreže nego manje mreže,
+Vrlo je lako primijetiti da ovaj način dopušta puno veću centraliziranost od preostalih algoritama konsenzusa. Iz tog mu razloga osnovna namjena nisu javne mreže nego manje mreže,
 obično unutar nekih tvrtki ili zatvorenih sustava. U takvom okruženju nije bitno prikupljanje nagrada validiranjem transakcija pa su provizije najmanje moguće.
 Osim niskih provizija, stvaranje novih blokova može biti vrlo brzo uz izrazito niske zahtjeve sklopovlja čvorova u mreži. Primjerice, testna mreža \emph{Ethereuma, Kovan}
 radi na \emph{PoA} algoritmu i u njoj se novi blokovi stvaraju svakih 5 sekundi. To omogućava izvođenje programa kojima je važna brzina distribucije informacija po mreži. \\
@@ -211,7 +209,7 @@ Najpoznatija implementacija ovog algoritma je \emph{Clique}, dio službene \emph
 poseban tranzicijski blok čiji je sadržaj nova lista autoriteta koji će imati ovlasti potpisivati i transakcije u idućoj epohi.
 
 \chapter{Ethereum}
-2013. godine ruski programer Vitalik Buterin predlaže Ethereum svojim \emph{whitepaperom}\footnote{\url{https://ethereum.org/whitepaper/}}, novu javnu platformu koja koristi 
+2013. godine ruski programer Vitalik Buterin predlaže \emph{Ethereum} svojim \emph{whitepaperom}\footnote{\url{https://ethereum.org/whitepaper/}}, novu javnu platformu koja koristi 
 dorađeno izdanje Nakamotovog \emph{Proof of Work} konsenzusnog algoritma.
 Od Buterinovog dokumenta do pokretanja \emph{Ethereuma} protekle su dvije prilično burne godine. Projekt je okupio nekoliko \emph{blockchain} stručnjaka, uključujući
 Gavina Wooda, koji je definirao \emph{Ethereum} na tehničkoj razini u svom \emph{yellow paper} dokumentu\footnote{\url{https://ethereum.github.io/yellowpaper/paper.pdf}} te
@@ -220,7 +218,7 @@ Wilkea, programera koji je izrazito puno doprinio projektu, te Josepha Lubina, k
 \footnote{\url{https://ethereum.foundation/}} u Švicarskoj.\citep{ffzg} \\
  \emph{Ethereum} je globalno decentralizirana računalna infrastruktura otvorenog koda koja
 izvodi programe zvane pametnim ugovorima \engl{smart contracts}. Koristi \emph{blockchain} za sinkroniziranje i pohranu promjena stanja sustava s valutom \emph{ether}
-za ograničavanje troška izvođenja programa.\citep{masteringEth}. \\
+za ograničavanje troška izvođenja programa\citep{masteringEth}. \\
 Dizajn iza \emph{Ethereuma} prati principe:
 
 \begin{enumerate}
@@ -318,7 +316,7 @@ Ono što čini ovaj sustav zanimljivim i pristupačnim širokoj populaciji je mo
 različitim sklopovljem. To znači da korisnici u većini slučajeva neće morati ulagati novac u novi hardver.\\ U ovom radu su korištena
 tri uređaja s ARM procesorima, jedno prijenosno računalo s Intel 64 bitnim procesorom i stolno računalo s AMD 64 bitnim procesorom.
 \subsection{Cubieboard2}
-Cubieboard2 jest jednostavno računalo (engl. \emph{single-board computer}) kompanije Cubietech. Ovo računalo jest otvoreno
+Cubieboard2\footnote{\url{http://www.cubietech.com/}} jest jednostavno računalo (engl. \emph{single-board computer}) kompanije Cubietech. Ovo računalo jest otvoreno
 što znači da su svi podaci o sklopovlju dostupni javno. Cubieboard2 je njihov drugi proizvod, izravni nasljednik originalnog Cubieboarda.\\
 Pogoni ga Allwinner A20 čipset kojeg čini dvojezgreni Cortex-A7 procesor takta 1 GHz s Mali400 grafičkim sklopom. 
 Na ploči je integrirana radna memorija DDR3 kapaciteta 1 GB na taktu 480 MHz i memorija za pohranu od 4 GB. Memorija za pohranu je 
@@ -327,13 +325,13 @@ Ne postoji ugrađen modul za bežičnu povezivost putem Wifi-a pa je korišten E
 Ovo računalo je moguće napajati putem USB micro sučelja ili DC 5V ulaza. \\
 S obzirom na to da je Cortex-A7 ARM procesor postoje razne mogućnosti kad je u pitanju odabir operativni sustav. Tvornički dolazi
 Android da unutarnjoj memoriji od 4 GB što nije odgovaralo potrebama ovog rada pa je bilo potrebno pronaći odgovarajuću distribuciju
-Linux operativnog sustava.\\ Odličan izbor se pokazala distribucija armbian koja je ponudila minimalnu instalaciju operativnog sustava
+Linux operativnog sustava.\\ Odličan izbor se pokazala distribucija armbian\footnote{\url{https://www.armbian.com/}} koja je ponudila minimalnu instalaciju operativnog sustava
 za ovo računalo baziranu na Debian Linuxu. Dolazi s ažurnom verzijom Linux kernela 5.4 što znači da sa strane programske podrške
 postoje dobri uvjeti. \\
 Nakon instalacije operativnog sustava, ažurirani su svi paketi, postavljena je statična IP adresa kako bi se bilo moguće udaljeno
 povezati na računalo putem SSH protokola. 
 \subsection{Raspberry Pi 1 model B}
-Raspberry Pi je najraširenije jednostavno računalo. Model 1B jest prva generacija iz 2012. godine koja po današnjim standardima
+Raspberry Pi\footnote{\url{https://www.raspberrypi.org/}} je najraširenije jednostavno računalo. Model 1B jest prva generacija iz 2012. godine koja po današnjim standardima
 donosi vrlo ograničene performance. \\
 Ovo računalo je dizajnirano oko Broadcom BCM2835 sustava na čipu (engl. \emph{SoC}) koji sadrži ARM1176JZF-S procesor na ARMv6
 arhitekturi i radnom taktu od 700 MHz. Usko grlo jest 256 MB radne memorije od kojih je samo 192 MB dostupno procesoru a ostatak je
@@ -341,7 +339,7 @@ rezerviran za obradu multimedijskog sadržaja. Ne postoji nikakva ugrađena memo
 Kao i kod Cubieboard2 računala, niti ovdje ne postoji ugrađeni Wifi modul pa su mogućnosti svedene na Ethernet ulaz ili USB
 adapter za Wifi. Računalo se napaja putem USB micro sučelja.\\
 S obzirom na to da je Raspberry Pi vrlo raširen, operativni sustav je vrlo lako dostupan i redovno održavan. Korišten je službeni
-Raspbian operativni sustav koji je baziran na Debian Linux distribuciji. Raspbian dolazi u dvije varijante, s grafičkim sučeljem
+Raspbian\footnote{\url{https://www.raspberrypi.org/documentation/raspbian/}} operativni sustav koji je baziran na Debian Linux distribuciji. Raspbian dolazi u dvije varijante, s grafičkim sučeljem
 i bez njega (engl. \emph{headless}). Za ovaj rad je primjerenije odabrati opciju bez grafičkog sučelja kako ne bismo trošili
 resurse nepotrebno na prikaz slike i razne dodatne procese koji su pokrenuti s grafičkim sučeljem. \\
 Nakon instalacije Raspbiana, paketi su ažurirani i kao i kod Cubieboard2 računala, postavljena je statična IP adresa i upaljen SSH
@@ -370,8 +368,8 @@ Računalo je povezano putem Ethernet sučelja na usmjeritelj (engl. \emph{Router
 Na prijenosnom računalu je instaliran Xubuntu 20 operativni sustav dok je na stolnom računalu instaliran Ubuntu 19.10.
 Oba operativna sustava su redovno ažurirana i imaju postavljene statične IP adrese.
 \section{Geth privatna mreža}
-Geth je službena implementacija Ethereum protokola u programskom jeziku Go. Izvorni kod je javno dostupan na Github platformi. 
-Postavljanje je vrlo dobro opisano u službenoj dokumentaciji. Potrebno ga je instalirati ili pokretati iz docker kontejnera. 
+Geth je službena implementacija Ethereum protokola u programskom jeziku Go.\citep{geth} Izvorni kod je javno dostupan na Github platformi. 
+Postavljanje je vrlo dobro opisano u službenoj dokumentaciji\footnote{\url{https://geth.ethereum.org/docs/}}. Potrebno ga je instalirati ili pokretati iz docker kontejnera. 
 Za ovaj rad je odabrana klasična instalacija zbog boljih performanci i smanjenja općih troškova (engl. \emph{overhead}).
 S obzirom na to da svaki uređaj koji je korišten pokreće neku distribuciju linuxa temeljenu na Debianu, instalacija je jednostavna
 i već su dostupne unaprijed izgrađene binarne datoteke za ARM i amd64 arhitekture. Potrebno je odabrati odgovarajući paket na
@@ -379,7 +377,7 @@ stranici za preuzimanje \url{https://geth.ethereum.org/downloads/}.\\ Za Cubiebo
 preveden za ARMv7 arhitekturu dok je za oba računala odabran paket preveden za 64 bitnu arhitekturu. \\
 Na Debian baziranim operativnim sustavima je također moguće instalirati Geth putem \emph{apt} repozitorija. \\
 \subsection{Generiranje novčanika i konfiguracijska datoteka}
-Da bismo izgradili privatnu Ethereum mrežu potrebno je inicijalizirati novčanik (engl \emph{wallet}) za svaki čvor. Taj novčanik
+Da bismo izgradili privatnu \emph{Ethereum} mrežu potrebno je inicijalizirati novčanik (engl \emph{wallet}) za svaki čvor. Taj novčanik
 će biti identifikator pojedinog čvora u mreži. \\
 Potrebno je kreirati novi direktorij u kojem će se nalaziti sve potrebne datoteke za Geth i naredbom generirati u nju novi novčanik.
 
@@ -406,7 +404,7 @@ Path of the secret key file: node/keystore/UTC--2020-05-19T18-01-09.785462468Z--
 \end{lstlisting}
 
 Korisnik dobiva upute kako ne smije dijeliti tajni ključ zbog toga što vrijedi da svatko tko posjeduje tajni ključ novčanika
-posjeduje i sadržaj odgovarajućeg novčanika. U ovom primjeru to nije problem jer se balans svakog novčanika postavlja u \emph(genesis)
+posjeduje i sadržaj odgovarajućeg novčanika. U ovom primjeru to nije problem jer se balans svakog novčanika postavlja u \emph{genesis.json}
 datoteci koju će učitati svaki čvor prije uključivanja u mrežu. Ta datoteka govori čvoru na koju mrežu da se spoji putem identifikatora
 mreže, daje mu upute o učestalosti kreiranja novih blokova, navodi koji je algoritam konsenzusa korišten i postavlja inicijalni balans
 odabranim novčanicima. Kako gradimo privatnu testnu mrežu, dobra je praksa postaviti svakom čvoru dovoljno \emph{Ethera} kako bismo
@@ -463,7 +461,7 @@ U nastavku je prikazana \emph{genesis.json} datoteka koja je korištena u ovom p
 
 U "config" odjeljku se definira identifikator mreže i algoritam konsenzusa. Ovdje je to \emph{clique}. U njegovim opcijama je namješten
 period na 15 sekundi i \emph{epoch} koji govori nakon kojeg bloka se kreira točka (engl. \emph{checkpoint}) nakon koje će čvorovi moći
-uskladiti svoje stanje bez da provjeravaju povijest od prvog bloka, odnosno \emph{genesis} bloka. Dovoljno je očitati stanje na \emph{checkpointu}
+uskladiti svoje stanje bez da provjeravaju povijest od prvog bloka, odnosno \emph{genesis} bloka.\citep{genesisSpec} Dovoljno je očitati stanje na \emph{checkpointu}
 što donosi velika poboljšanja u performancama uz određeni kompromis u sigurnosti algoritma. \\
 Osim tih polja, za \emph{Proof of Authority} je jedino još važno u polje "alloc" dodati sve čvorove kojima će biti dozvoljeno potvrđivati
 nove generirane blokove (engl. \emph{sealing blocks}). Redom adrese navedene su adrese novčanika Raspberry Pi 3 pločice, AMD stolnog računala, Intel prijenosnog
@@ -507,7 +505,7 @@ kojom se zadaje identifikator \emph{bootnodea} i mreže i adresa novčanika koja
 \end{figure}
 
 Iz ispisa se može vidjeti kako je nakon upisane lozinke za otključavanje novčanika pokrenuto rudarenje, odnosno kreiranje blokova.
-Kao što je već objašnjeno detaljnije u prethodnom poglavlju, potrebno je imati (N/2)+1 čvorova \emph{online} kako bi se blokovi
+Potrebno je imati (N/2)+1 čvorova \emph{online} kako bi se blokovi
 kontinuirano stvarali gdje je N broj adresa navedenih u \emph{genesis.json} datoteci. U slučaju da neki čvor \emph{ispadne},
 blokovi će se stvarati dokle god je dovoljno aktivnih čvorova. Kad se čvor ponovno poveže, on će uskladiti svoje stanje
 s ostalima kako bi povijest bila svugdje jedinstvena. \\
@@ -531,8 +529,8 @@ ili websocket veza kako bi se podaci dobavljali.
 Osnovni dio praćenja stanja je \emph{block explorer}. Pomoću njega se može u realnom vremenu pratiti stanje \emph{blockchaina}
 što podrazumijeva prikaz najvišeg trenutnog bloka (engl. \emph{block height}) te pretraživanje i filtriranje transakcija u 
 pojedinom bloku. \\
-Odabrana je aplikacija \emph{Alethio Ethereum Lite Explorer} zbog svoje jednostavnosti i ažurnosti. To je klijentska
-web aplikacija koja se povezuje na bilo koji \emph{Ethereum} čvor koji ima omogućen udaljen poziv procedura (engl. \emph{RPC}). \\
+Odabrana je aplikacija \emph{Alethio Ethereum Lite Explorer}\footnote{\url{https://aleth.io/products/explorer}} zbog svoje jednostavnosti i ažurnosti. To je klijentska
+web aplikacija koja se povezuje na bilo koji \emph{Ethereum} čvor koji ima omogućen udaljen poziv procedura (engl. \emph{RPC}).\citep{explorer} \\
 Čvorovi postavljeni u prethodnom dijelu nemaju omogućen udaljen poziv procedura. Da ga omogućili potrebno je zaustaviti geth proces
 na odabranom uređaju te ponovno pokrenuti dodavanjem parametara:
 
@@ -550,7 +548,7 @@ Jedini preduvjet je imati instaliran \emph{docker} klijent na računalu. Nakon t
   $ docker run -p 8080:80 -e APP_NODE_URL="http://localhost:8545" alethio/ethereum-lite-explorer
 \end{lstlisting}
 
-\emph{Docker} provjerava postoji li već lokalno dostupna slika te ako ne postoji je dohvaća s \emph{Docker Hub} repozitorija.
+\emph{Docker} provjerava postoji li već lokalno dostupna slika te ako ne postoji je dohvaća s \emph{Docker Hub}\footnote{\url{https://hub.docker.com/}} repozitorija.
 Ovim načinom nije potrebno mijenjati konfiguracijsku datoteku već je dovoljno samo dodati varijablu okoline (engl. \emph{environment variable})
 koja aplikaciji daje IP adresu i vrata čvora na koji se potrebno spojiti. \\
 Parametrom "-p 8080:80" se prosljeđuje \emph{port} 80 unutar kontejnera na \emph{port} 8080 na uređaju na kojem se pokreće kontejner. \\
@@ -566,7 +564,7 @@ Blok 47 na slici je prazan, odnosno niti jedna transakcija se nije dogodila u nj
 \subsection{Opterećenost čvorova}
 Za dobivanje podataka potrebnih za usporedbu performanci na raznorodnom sklopovlju potreban je poseban servis koji će pratiti
 opterećenost sklopovlja čvora. Jednako kao i za praćenje stanja blokova, postoji više dostupnih alata. Za ovaj rad je ponovno
-odabran \emph{Alethiov} alat \emph{ethstats}. Razlog tome je što je jedini redovno održavan, besplatan i moguće ga je pokrenuti
+odabran \emph{Alethiov} alat \emph{ethstats}\footnote{\url{https://ethstats.io/}}. Razlog tome je što je jedini redovno održavan, besplatan i moguće ga je pokrenuti
 uz vrlo malo konfiguracije pomoću \emph{docker-composea}. \\
 Dovoljno je preuzeti datoteku s poveznice
  \footnote{\url{https://raw.githubusercontent.com/Alethio/ethstats-network-server/master/docker/lite-mode/redis-persistence/docker-compose.yml}} koju 
@@ -615,7 +613,7 @@ Sada možemo izmijeniti \emph{docker-compose.yaml} datoteku željenim uređivač
 
 U odnosu na zadanu konfiguraciju, dodano je preusmjeravanje unutarnjeg porta 3000 na vanjsko sučelje računala kako bi ostali uređaji
 u lokalnoj mreži mogli vidjeti \emph{ethstats-server} te je izmijenjen identifikator mreže koji je bio postavljen na vrijednost "1" što
-označava glavnu Ethereum mrežu \emph{Ethereum mainnet}. Ako ponovno pokrenemo \emph{docker-compose} trebali bismo uspješno biti povezani
+označava glavnu Ethereum mrežu, \emph{Ethereum mainnet}. Ako ponovno pokrenemo \emph{docker-compose} trebali bismo uspješno biti povezani
 na čvorove i posjetom adrese "localhost:80" bit će prikazano sučelje.
 
 \begin{figure}[ht]
@@ -680,7 +678,7 @@ Za ovaj rad je odabran \emph{Metamask}\footnote{\url{https://metamask.io/}}, kli
 Dostupna je kao ekstenzija za \emph{Chromium} i \emph{Firefox} preglednike ili kao mobilna \emph{iOS} ili \emph{Android} aplikacija. 
 \subsection{Slanje i primanje Ethera}
 Nakon instalacije \emph{Metamask} aplikacije u preglednik, otvara se njeno sučelje te traži korisnika da izradi novi novčanik ili se prijavi s postojećim.
-Kako su prethodno već generirani novčanici koje koriste čvorovi, potrebno je njih ubaciti. Da bismo ubacili postojeći novčanik u metamask potrebno je znati ili
+Kako su prethodno već generirani novčanici koje koriste čvorovi, potrebno je njih ubaciti. Da bismo ubacili postojeći novčanik u \emph{Metamask} potrebno je znati ili
 privatni ključ novčanika ili koristiti \emph{json} datoteku koja je automatski izrađena prilikom generiranja novčanika \emph{gethom}. Tajna datoteka se nalazi
 u pod direktoriju \emph{keystore}.
 
@@ -704,9 +702,9 @@ jer je čvor na računalu s \emph{Metamask} klijentom dostupan preko unaprijed z
 \pagebreak
 
 \begin{figure}[ht]
+  \centering
   \includegraphics[scale=0.5]{mmnetworkdd.png}
   \caption{Odabir mreže}
-  \centering
 \end{figure}
 
 Ako se \emph{Metamask} uspješno povezao na čvor, pisat će stanje na novčaniku. To stanje odgovara inicijalnom stanju zadanom u \emph{genesis.json} datoteci ako
@@ -752,9 +750,9 @@ informacija o broju potvrda. To je podatak koji govori koliko je blokova generir
 \end{figure}
 
 \subsection{Pametni ugovori}
-Pametni ugovori su ono što Ethereum razlikuje od običnih kriptovaluta koje služe samo za razmjenu vrijednosti putem transakcija. Danas postoji velik broj postavljenih 
-pametnih ugovora na glavnoj Ethereum mreži. Postavljanje pametnog ugovora je transakcija kojom se šalje prevedeni kod pametnog ugovora na \emph{blockchain}.
-Kod se piše u objektno orijentiranom jeziku \emph{Solidity} i prevodi koristeći \emph{solc}, prevoditelj za Solidity. Prevođenjem programskog koda dobiva se binarna datoteka
+Pametni ugovori su ono što \emph{Ethereum} razlikuje od običnih kriptovaluta koje služe samo za razmjenu vrijednosti putem transakcija. Danas postoji velik broj postavljenih 
+pametnih ugovora na glavnoj \emph{Ethereum} mreži. Postavljanje pametnog ugovora je transakcija kojom se šalje prevedeni kod pametnog ugovora na \emph{blockchain}.
+Kod se piše u objektno orijentiranom jeziku \emph{Solidity} i prevodi koristeći \emph{solc}\footnote{\url{https://www.npmjs.com/package/solc}}, prevoditelj za Solidity. Prevođenjem programskog koda dobiva se binarna datoteka
 i aplikacijsko binarno sučelje (engl. \emph{ABI - application binary interface}). \emph{ABI} služi kao sučelje za interakciju s pametnim ugovorom. Nakon što je kod
 proveden potrebno je postaviti produkte prevođenja na \emph{blockchain}.
 \subsubsection{Kod i prevođenje}
@@ -766,7 +764,7 @@ Otvaranjem početne stranice, s lijeve strane je prikazan pretražitelj datoteka
 za demonstriranje samog toka događaja pa iz tog razloga za ovaj rad nije pisan nikakav kompleksniji kod. \emph{Solidity} datoteke imaju nastavak \emph{.sol}
 pa ih je lako prepoznati. \\
 Za ovaj rad će se koristiti prvi primjer \emph{1\_Storage.sol} pa ga je potrebno otvoriti s dva klika kako bi se prikazao njegov izvorni kod.
-U prvom liniji koda definirane su valjane verzije \emph{Solidity} jezika u kojima će se ovaj kod moći uspješno prevesti. To je vrlo važno jer je jezik
+U prvoj liniji koda definirane su valjane verzije \emph{Solidity} jezika u kojima će se ovaj kod moći uspješno prevesti. To je vrlo važno jer je jezik
 nov i vrlo brzo izlaze nova izdanja koja mijenjaju bitne stvari pa iz tog razloga starija sintaksa neće biti valjano prevedena s novijim prevoditeljem. Također je moguće
 navesti raspon verzija kao što je u ovom primjeru stavljeno. \\
 Nakon definiranja verzije, ključnom riječi \emph{contract} definira se naziv ugovora. Kako je \emph{Solidity} objektno orijentiran jezik, ta ključna riječ odgovara 
@@ -832,7 +830,7 @@ besplatna.
 
 \subsubsection{Primjer složenijeg ugovora}
 
-U ovom ugovoru je dozvoljeno bilo kome mijenjati vrijednost varijable. U nekim slučajevima to je željena mogućnost. Za neki drugu funkcionalnost je možda poželjno da
+U ovom ugovoru je dozvoljeno bilo kome mijenjati vrijednost varijable. U nekim slučajevima to je željena mogućnost. Za neku drugu funkcionalnost je možda poželjno da
 samo određeni računi smiju upisivati, a svi ostali čitati. Dobar primjer malo složenijeg ugovora je lutrija. \\
 Jednostavan primjer ugovora za lutriju bi dozvoljavao da bilo tko može igrati, odnosno uložiti \emph{Ether} na adresu pametnog ugovora ali da nitko ne može pokrenuti
 izvlačenje sretnog dobitnika osim vlasnika ugovora, odnosno računa koji je postavio ugovor na \emph{blockchain}. Pokretanjem metode za izvlačenje dobitnika nasumično
