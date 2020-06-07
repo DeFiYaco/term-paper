@@ -211,7 +211,7 @@ Najpoznatija implementacija ovog algoritma je \emph{Clique}, dio službene \emph
 poseban tranzicijski blok čiji je sadržaj nova lista autoriteta koji će imati ovlasti potpisivati i transakcije u idućoj epohi.
 
 \chapter{Ethereum}
-2013. godine ruski programer Vitalik Buterin predlaže Ethereum svojim \emph{whitepaperom}, novu javnu platformu koja koristi 
+2013. godine ruski programer Vitalik Buterin predlaže Ethereum svojim \emph{whitepaperom}\footnote{\url{https://ethereum.org/whitepaper/}}, novu javnu platformu koja koristi 
 dorađeno izdanje Nakamotovog \emph{Proof of Work} konsenzusnog algoritma.
 Od Buterinovog dokumenta do pokretanja \emph{Ethereuma} protekle su dvije prilično burne godine. Projekt je okupio nekoliko \emph{blockchain} stručnjaka, uključujući
 Gavina Wooda, koji je definirao \emph{Ethereum} na tehničkoj razini u svom \emph{yellow paper} dokumentu\footnote{\url{https://ethereum.github.io/yellowpaper/paper.pdf}} te
@@ -221,7 +221,7 @@ Wilkea, programera koji je izrazito puno doprinjeo prjektu, te Josepha Lubina, k
  \emph{Ethereum} je globalno decentralizirana računalna infrastruktura otvorenog koda koja
 izvodi programe zvane pametnim ugovorima \engl{smart contracts}. Koristi \emph{blockchain} za sinkroniziranje i pohranu promjena stanja sustava zajedno s valutom \emph{ether}
 za ograničavanje troška izvođenja programa.\citep{masteringEth}. \\
-Dizajn iza \emph{Ethereuma} je namijenjen da prati principe:
+Dizajn iza \emph{Ethereuma} prati principe:
 
 \begin{enumerate}
   \item Jednostavnosti
@@ -253,7 +253,7 @@ njeno za izvođenje.\citep{whitepaper}
 \section{Komponente}
 U \emph{Ethereumu} postoji više komponenti koje čine cjelinu. Mreža je \emph{peer to peer} što znači da članovi mreže komuniciraju izravno, bez poslužitelja.
 Odnosno, član mreže je u isto vrijeme i klijent i poslužitelj. \\
-Cijela mreža prati predodređeni algoritam konsezusa. U glavnoj \emph{Ethereum} mreži je to trenutno \emph{PoW}, dok neke testne mreže, primjerice \emph{Ropset i Kovan} 
+Cijela mreža prati predodređeni algoritam konsezusa. U glavnoj \emph{Ethereum} mreži je to trenutno \emph{PoW}, dok neke testne mreže, primjerice \emph{Ropsten i Kovan} 
 rade na \emph{PoA} algoritmu konsenzusa. \\
 Transakcije su poruke koje prenose vrijednost i podatke između pošiljatelja i primatelja. Svaka transakcija u mreži zahtjeva predodređenu količinu provizije u obliku
 \emph{gasa}. To je mjerna jedinica koja određuje potrebnu procesnu snagu za izvršavanje te transakcije.
@@ -270,10 +270,37 @@ kao algoritam koristi \emph{proof of work}. Postoje planovi prijelaska na \emph{
 \paragraph{}
 Postoji nekoliko interoperabilnih implementacija klijentske programske podrške za \emph{Ethereum}. Najpoznatiji su \emph{Geth} i \emph{Parity}.\citep{masteringEth}
 
-
-\section{Decentralizirane aplikacije \engl{DApps}}
-
-
+\section{Pametni ugovori}
+Najveća nadogradnja koju je uveo \emph{Ethereum} u odnosu na dotadašnje implementacije tehnologije distribuirane knjige jesu pametni ugovori.
+\emph{Bitcoin} je prva platforma u kojoj su se mogli pisati vrlo jednostavni ugovori njegovim jezikom \emph{Script}\footnote{\url{https://developer.bitcoin.org/devguide/contracts.html}}.
+Programski kod pisan za \emph{Bitcoin} je vrlo ograničen i nije podržavao izvođenje programskih petlji. Služio je većinom za definiranje transakcije za čije izvršenje
+je potreban potpis više predefiniranih sudionika \engl{multisig}. \\
+Taj problem rješava \emph{Ethereum} koji ne koristi \emph{Script} nego svoj jezik, \emph{Solidity}. \emph{Solidity} je objektno orijentiran jezik za implementiranje pametnih
+ugovora. Dizajniran je specifično za izvršavanje na \emph{Ethereum} virtualnom stroju. \\
+Koristeći \emph{Solidity} moguće je izrađivati pametne ugovore primjerice za glasanje i grupno financiranje \engl{crowdfunding}.\citep{solidity}
+Nakon što je kod napisan, potrebno ga je prevesti i postaviti na \emph{Ethereum} mrežu. Kod živi na određenoj adresi u mreži i može primati, čuvati i slati tokene.
+Adrese na \emph{Ethereum} mreži su heksadekadskog oblika duljine 40 znakova. Nije moguće raspoznati \emph{Ethereum} adresu novčanika i bilo koji drugi nasumični 
+heksadekadski broj jednake duljine. \\
+Nakon što je ugovor preveden i postavljen, dostupan je svakom čvoru koji je sinkroniziran s mrežom na koju se postavio ugovor. Unutar samog ugovora je moguće definirati
+tko će imati ovlasti pozivati određene metode, ali ako to nije podešeno, bilo tko može pozivati metode. Kako ne bi došlo do zagušenja mreže malicioznim pozivima i 
+dugotrajnim izvršavanjem koda, svaka transakcija koja upisuje novi sadržaj na mrežu košta. Izvršavanjem takvih metoda se troši \emph{gas}. Količina \emph{gasa} dostupnog
+za izvršavanje željene transakcije ne smije pasti na 0. U tom slučaju izvršavanje se zaustavlja i kažemo da se dogodila iznimka nedostatka
+ \emph{gasa} \engl{out-of-gas exception}.\citep{yellowpaper}
+Pozivi metoda koji samo čitaju podatke s \emph{blockchaina} su besplatni jer su ti podaci već dostupni i nije potrebno trošiti resurse za upisivanje.
+\subsection{Decentralizirane aplikacije}
+Pametni ugovori su dobra osnova za izgradnju složenog sustava no problem je što interakcija s ugovorim nije prilagođena širem publicitetu. Kako bi se taj problem smanjio
+i kako korisnici ne bi morali izravno pozivati metode ugovora, osmišljene su decentralizirane aplikacije \engl{DApps}. One zapravo koriste pametne ugovore u pozadini
+no osim njih implementiraju i korisničko sučelje koje onda komunicira s ugovorom na mreži. One mogu biti u obliku web, desktop ili mobilne aplikacije. Za komunikaciju
+s mrežom koriste već gotove biblioteke. \\
+\paragraph{}
+Najpoznatiji primjer takve aplikacije je \emph{Cryptokitties}\footnote{\url{https://www.cryptokitties.co/}}. To je jedna od prvih igara na \emph{blockchainu}.
+Zahtjevi su samo odgovarajući preglednik i neka klijentska aplikacija za \emph{Ethereum} novčanik. \\
+Igra se temelji na tome da igrač može kupiti digitalnu mačku koja je jedinstvena, kao i prava mačka. Nakon toga, moguće je kupovati još mački, miješati njihove
+vrste i razmnožavati ih. Mačke se kupuju od drugih igrača i igrači sami određuju cijenu na koju se još pribroji mali iznos provizije za obavljanje transakcije razmjene.
+Isto tako, prilikom rođenja nove mačke, plaća se provizija mreži jer je potrebno upisati novu mačku u \emph{blockchain}. 
+Ukoliko korisnik izgubi pristup svom novčaniku koji posjeduje mačke, nitko nikada neće moći vratiti baš te mačke. \\
+Igra je postigla vrlo veliku popularnost bez obzira na svoj jednostavan dizajn i pokazala je potpuno novi koncept u svijetu igara. \\
+Danas postoje i druge igre na \emph{Ethereum} mreži koje iskorištavaju mogućnost razmijene dobara unutar igre za tokene.
 
 \chapter{Ethereum mreža na raznovrsnom sklopovlju}
 Glavni zadatak ovog završnog rada bio je postaviti vlastitu mrežu koristeći Ethereum platformu na raznorodnom sklopovlju
@@ -343,7 +370,7 @@ Računalo je povezano putem Ethernet sučelja na usmjeritelj (engl. \emph{Router
 Na prijenosnom računalu je instaliran Xubuntu 20 operativni sustav dok je na stolnom računalu instaliran Ubuntu 19.10.
 Oba operativna sustava su redovno ažurirana i imaju postavljene statične IP adrese.
 \section{Geth privatna mreža}
-Geth je službena implementacija Ethereum protocola u programskom jeziku Go. Izvorni kod je javno dostupan na Github platformi. 
+Geth je službena implementacija Ethereum protokola u programskom jeziku Go. Izvorni kod je javno dostupan na Github platformi. 
 Postavljanje je vrlo dobro opisano u službenoj dokumentaciji. Potrebno ga je instalirati ili pokretati iz docker kontejnera. 
 Za ovaj rad je odabrana klasična instalacija zbog boljih performanci i smanjenja općih troškova (engl. \emph{overhead}).
 Obzirom da svaki uređaj koji je korišten pokreće neku distribuciju linuxa temeljenu na Debianu, instalacija je jednostavna
