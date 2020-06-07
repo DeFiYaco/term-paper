@@ -816,7 +816,23 @@ tako da se u kodu napiše da se izvlačenje pokreće samostalno primjerice kad j
 samog ugovora.
 
 \chapter{Zaključak}
-\emph{Ethereum} je samo jedan primjer trenutno najaktivnije koji je trenutno naj
+\emph{Ethereum} je samo jedan primjer mreže temeljene na tehnologiji distribuirane knjige. Za ovaj rad je bilo prigodno osloniti se na \emph{Ethereum} zbog 
+velike količine dostupne javno dostupne dokumentacije i besplatnih alata. Osim toga, modularnost \emph{Ethereuma} je omogućila korištenje protokola s različitim
+algoritmima konsenzusa za različite potrebe. Bez obzira na algoritam konsenzusa, funkcionalnost platforme ostaje nepromijenjena.
+To je idealno svojstvo za ovaj primjer jer \emph{proof of work} algoritam ne bi bilo moguće izvoditi na jeftinijem i slabijem sklopovlju zbog svoje implementacije
+koja zahtjeva velik utrošak energije za validiranje transakcija i blokova. \emph{Proof of authority}
+algoritam je prigodan za uređaje niske potrošnje i zatvorene sustave u kojima je potrebna brža distribucija informacija po mreži i gdje su sudionici mreže poznati i 
+provjereni. \\
+Samo postavljanje mreže nije zahtjevno, ali pretpostavlja osnovno razumijevanje mrežnih protokola, arhitekture računala i specifikacije \emph{Ethereuma}. 
+U ovom radu je pokazano kako gotovo bilo tko može pokretati vlastiti čvor koji će biti uključen u mrežu iz vlastitog doma na već postojećem računalu ili 
+\emph{single board} računalu. Osim toga, nije potrebno osigurati računalo specifično za taj proces, već je moguće paralelno koristiti računalo za rad i svakodnevne poslove
+dok se u pozadini izvršava proces čvora i sinkronizira podatke. Također, nije potrebno niti biti na mreži konstantno jer se ponovnim uključivanjem u mrežu povijest
+sinkronizira s ostalim čvorovima. Trebalo bi provjeravati zauzeće memorije za pohranu. Stvaranjem blokova se 
+upisuju novi podaci na svaki čvor mreže te oni čuvaju cjelovitu povijest u svojoj lokalnoj bazi podataka. Primjerice, u glavnoj mreži \emph{Ethereuma} veličina
+podataka u bazi godišnje poraste za oko 75 GB. Obzirom da je dovoljna i sporija memorija za pohranu, nije potrebno ulagati u brže \emph{SSD} komponente za pohranu jer
+je i obični čvrsti disk dovoljno dobro rješenje. \\
+Ova tehnologija je još uvijek u razvoju i nije dostigla razinu adopcije kao primjerice internet. Smatram da ulaganjem u obrazovanje i širenjem svijesti o novim mogućnostima
+udaljene komunikacije ova tehnologija može donijeti velike prednosti u raznim djelatnostima koje zahtjevaju dodatnu razinu sigurnosti i pouzadnosti. 
 
 \bibliography{literatura}
 
