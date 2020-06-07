@@ -103,10 +103,11 @@ Odatle dolazi i sam naziv tehnologije. Čvor koji upisuje transakciju u blok prv
 Čvorovi koji primaju novu transakciju potrvđuju njenu valjanost i uključuju ju u idući blok. Prije nego što se novi blok transakcija poveže u postojeći lanac
 blokova, on mora biti potvrđen od većine čvorova prema poznatim pravilima konsenzusa koji se koristi
 u toj implementaciji mreže. Nakon što je blok povezan, sve transakcije zabilježene ostaju zauvijek i
-šanse za maliciozne izmjene su vrlo malene. To su najvažnije karakteristike DL tehnologije konačnost (engl. \emph{finality}) i nepromjenjivost \emph{immutability}.
+šanse za maliciozne izmjene su vrlo malene. To su dvije najvažnije karakteristike DL tehnologije, konačnost (engl. \emph{finality}) i nepromjenjivost \emph{immutability}.
 
 \section{Proof of work}
-Prvi algoritam konsenzusa koji se koristio u \emph{blockchain} tehnologiji je bio \emph{proof of work}, odnosno izvršeni rad procesora i utrošena električna energija
+Prvi algoritam konsenzusa koji se koristio u \emph{blockchain} tehnologiji je bio \emph{proof of work},
+ odnosno algoritam u kojem izvršeni rad procesora i utrošena električna energija
 garantira svojstvo konačnosti i nepromjenjivosti. Izvorni primjer ove implementacije je \emph{Bitcoin}. \\
 Bitcoin je najpoznatiji primjer primjene blockchaina u široj populaciji. Njegova mreža je aktivna 
 od siječnja 2009. godine kada je Satoshi Nakamoto potvrdio prvi blok (engl. \emph{genesis}).
@@ -210,10 +211,68 @@ Najpoznatija implementacija ovog algoritma je \emph{Clique}, dio službene \emph
 poseban tranzicijski blok čiji je sadržaj nova lista autoriteta koji će imati ovlasti potpisivati i transakcije u idućoj epohi.
 
 \chapter{Ethereum}
-2013. godine ruski programer Vitalik Buterin predlaže Ethereum, novu javnu platformu koja koristi 
-dorađeno izdanje Nakamotovog \emph{Proof of Work} konsenzusnog algoritma. Posebnost Ethereuma jest da on nije
-samo raspodijeljena platforma za transakcije, već raspodijeljeni virtualni stroj (engl. \emph{Ethereum Virtual Machine - EVM})
- koji može izvoditi programski kod poznat pod nazivom pametni ugovor (engl. \emph{smart contract}). 
+2013. godine ruski programer Vitalik Buterin predlaže Ethereum svojim \emph{whitepaperom}, novu javnu platformu koja koristi 
+dorađeno izdanje Nakamotovog \emph{Proof of Work} konsenzusnog algoritma.
+Od Buterinovog dokumenta do pokretanja \emph{Ethereuma} protekle su dvije prilično burne godine. Projekt je okupio nekoliko \emph{blockchain} stručnjaka, uključujući
+Gavina Wooda, koji je definirao \emph{Ethereum} na tehničkoj razini u svom \emph{yellow paper} dokumentu\footnote{\url{https://ethereum.github.io/yellowpaper/paper.pdf}} te
+izumio programski jezik \emph{Solidity}\footnote{\url{https://solidity.readthedocs.io/en/v0.6.9/}}, Charlesa Hoskinsona koji je na početku bio direktor projekta, Jeffeya
+Wilkea, programera koji je izrazito puno doprinjeo prjektu, te Josepha Lubina, koji je bio ključan u pokretanju zaklade \emph{Ethereum Foundation}
+\footnote{\url{https://ethereum.foundation/}} u Švicarskoj.\citep{ffzg} \\
+ \emph{Ethereum} je globalno decentralizirana računalna infrastruktura otvorenog koda koja
+izvodi programe zvane pametnim ugovorima \engl{smart contracts}. Koristi \emph{blockchain} za sinkroniziranje i pohranu promjena stanja sustava zajedno s valutom \emph{ether}
+za ograničavanje troška izvođenja programa.\citep{masteringEth}. \\
+Dizajn iza \emph{Ethereuma} je namijenjen da prati principe:
+
+\begin{enumerate}
+  \item Jednostavnosti
+  \item Univerzalnosti
+  \item Modularnosti
+  \item Agilnosti
+  \item Bez diskriminacije i cenzure
+\end{enumerate}
+
+\paragraph{}
+Jednostavnost znači da \emph{Ethereum} protokol mora biti dovoljno jednostavan da prosječan programer može pratiti i implementirati cjelokupnu specifikaciju protokola.
+Svaka optimizacija koja dodaje složenost ne bi trebala biti integrirana osim ako ta optimizacija ne nudi značajnu prednost.
+\paragraph{}
+Osnovan dio filozofije dizajna je da \emph{Ethereum} nema posebne značajke \engl{features}. Umjesto toga, \emph{Ethereum} pruža Turing kompletan skriptni jezik koji programer
+može koristiti kako bi napisao bilo kakav pametni ugovor ili konstruirati tip transakcije matematički definiran. Primjerice, moguće je imati neograničen broj pametnih ugovora
+koji međusobno komuniciraju kako bi tvorili složen programski sustav.
+\paragraph{}
+Dijelovi \emph{Ethereum} protokola trebaju biti dizajnirani što modularnije i odvojivije kako bi se omogućilo jednostavno uvođenje manjih promjena u budućnosti. Inovacije
+i dodatne funkcionalnosti trebaju biti implementirane kao odvojene, cjelovite biblioteke.
+\paragraph{}
+Detalji protokola nisu fiksirani, moguće ih je naknadno mijenjati no to nije nešto što bi trebalo često raditi. Komputacijski testovi u procesu razvoja mogu dovesti do
+otkrića novih modifikacija protokola ili \emph{Ethereum} virtualnog stroja \engl{Ethereum Virtual Machine - EVM} koji će moći značajno poboljšati skalabilnost ili sigurnost.
+U tom slučaju, razmislit će se o izmjeni.
+\paragraph{}
+Protokol ne bi smio aktivno ograničavati ili zabranjivati specifične kategorije uporabe. Svi regulatorni mehanizmi u protokolu trebaju biti dizajnirani da izravno
+reguliraju štetu i ne pokušavaju se suprostaviti specifičnim neželjenim aplikacijama. Programer čak može pokrenuti beskonačnu petlju dokle god plaća proviziju
+njeno za izvođenje.\citep{whitepaper}
+
+\section{Komponente}
+U \emph{Ethereumu} postoji više komponenti koje čine cjelinu. Mreža je \emph{peer to peer} što znači da članovi mreže komuniciraju izravno, bez poslužitelja.
+Odnosno, član mreže je u isto vrijeme i klijent i poslužitelj. \\
+Cijela mreža prati predodređeni algoritam konsezusa. U glavnoj \emph{Ethereum} mreži je to trenutno \emph{PoW}, dok neke testne mreže, primjerice \emph{Ropset i Kovan} 
+rade na \emph{PoA} algoritmu konsenzusa. \\
+Transakcije su poruke koje prenose vrijednost i podatke između pošiljatelja i primatelja. Svaka transakcija u mreži zahtjeva predodređenu količinu provizije u obliku
+\emph{gasa}. To je mjerna jedinica koja određuje potrebnu procesnu snagu za izvršavanje te transakcije.
+Kad je mreža opterećena i postoje transakcije koje moraju čekati na njihovo uključivanje u blok, prednost ima transakcija za čije je izvođenje plaćeno više
+\emph{gasa}. Isto tako, ako je mreža slabo opterećena, dovoljno je platiti proviziju blizu 0 \emph{gasa} da bi se transakcija uključila u blok.\citep{ethdocs}
+\paragraph{}
+Sve promjene stanja u mreži su procesuirane u \emph{Ethereum} virtualnom stroju. \emph{EVM} izvršava strojni kod prevedenih pametnih ugovora koji su pisani u višem
+programskom jeziku, primjerice u \emph{Solidity} jeziku. \\
+Promjene stanja su pohranjene lokalno na svakom čvoru u bazi podataka. Sadržaj baze su sve transakcije i stanje sustava u obliku serijalizirane strukture podataka zvano
+Merkleovo stablo \engl{Merkle Patricia Tree}.
+\paragraph{}
+Kao što je već rečeno prije, da bi se osigurala pouzdanost i nepromjenjivost podataka u mreži, potrebno je odabrati algoritam konsenzusa. Glavna \emph{Ethereum} mreža
+kao algoritam koristi \emph{proof of work}. Postoje planovi prijelaska na \emph{proof of stake} algoritam konsenzusa tokom 2020. godine.
+\paragraph{}
+Postoji nekoliko interoperabilnih implementacija klijentske programske podrške za \emph{Ethereum}. Najpoznatiji su \emph{Geth} i \emph{Parity}.\citep{masteringEth}
+
+
+\section{Decentralizirane aplikacije \engl{DApps}}
+
 
 
 \chapter{Ethereum mreža na raznovrsnom sklopovlju}
@@ -757,24 +816,31 @@ tako da se u kodu napiše da se izvlačenje pokreće samostalno primjerice kad j
 samog ugovora.
 
 \chapter{Zaključak}
-Zaključak.
+\emph{Ethereum} je samo jedan primjer trenutno najaktivnije koji je trenutno naj
 
 \bibliography{literatura}
 
 \bibliographystyle{fer}
 
 \begin{sazetak}
-Sažetak na hrvatskom jeziku.
+Proučiti i objasniti osnove tehnologije raspodijeljenje glavne knjige i najpoznatije algoritme konsenzusa koji se primjenjuju danas. Usporediti njihove prednosti i 
+mane. \\
+Dati kratak prikaz povijesti i arhitekture \emph{Ethereum} mreže te pojasniti kako se odvijaju transakcije i izvršava programski kod.\\
+Proučiti mogućnost postavljanja privatne mreže u svrhu testiranja izvođenja transakcija i koda pametnih ugovora na vlastitom sklopovlju različite procesorske arhitekture
+i snage. Postaviti mrežu i testirati dodatne funkcionalnosti koje približavaju ovu simulaciju stvarnoj uporabi.
 
-\kljucnerijeci{Ključne riječi, odvojene zarezima.}
+\kljucnerijeci{Raspodijeljena glavna knjiga, algoritmi konsenzusa, pametni ugovori, decentralizirani sustav, transakcije, čvorovi}
 \end{sazetak}
 
 % TODO: Navedite naslov na engleskom jeziku.
 \engtitle{Performance Comparison of the Ethereum Blockchain on Heterogeneous Hardware}
 \begin{abstract}
-Abstract.
+Analyze and describe basics of the Distributed Ledger Technology and well known consensus algorithms that are used today. Compare their pros and cons. \\
+Give short review of history and architecture of the \emph{Ethereum} network and explain execution of transactions and program instructions. \\
+Examine the possibility of setting up a private network for the purpose of testing and executing transactions and smart contracts on your own hardware with different 
+architecture and power. Set up a network and test additional functionalities that bring this simulation closer to actual use. 
 
-\keywords{Keywords.}
+\keywords{Distributed Ledger Technology, consensus algorithms, smart contracts, decentralized system, transactions, nodes}
 \end{abstract}
 
 \end{document}
