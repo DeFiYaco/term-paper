@@ -84,8 +84,8 @@ i mnogih drugih implementacija tehnologije distribuirane knjige koji nude moguć
 bez centralnog poslužitelja, \emph{Ethereum} mreža omogućuje i izvođenje programskog koda u obliku pametnih ugovora.\\
 U ovom radu je prikazano kako se može pokrenuti privatna mreža na različitom sklopovlju uz  ispitivanje najnižih zahtjeva sklopovlja.
 Dodatno, prikazat će se proces obavljanja transakcija i izvođenja programskog koda na čvorovima uz prigodni prikaz sa sučeljem u jednostavnoj web aplikaciji.\\
-U prvom poglavlju ovog rada, objasnit će se osnove tehnologije distribuirane knjige i njene primjene.\\
-Nakon toga će biti poglavlje usmjereno na \emph{Ethereum} kao implementaciju navedene tehnologije algoritmom ograničenih skupova autoriziranih čvorova mreže (engl. \emph{Proof of Authority}). \\
+U prvom poglavlju ovog rada, objasnit će se osnove tehnologije distribuirane knjige i njene primjene.
+Nakon toga će biti poglavlje usmjereno na \emph{Ethereum} kao implementaciju navedene tehnologije algoritmom ograničenih skupova autoriziranih čvorova mreže (engl. \emph{Proof of Authority}). 
 Posljednje poglavlje je zaduženo za detaljan postupak kreiranja privatne mreže na raznorodnom sklopovlju
 s različitim operativnim sustavima uz dodatak programske podrške za praćenje transakcija i stanja mreže.  
 
@@ -95,10 +95,10 @@ U nastavku ćemo tehnologiju glavne raspodijeljene knjige (engl. \emph{Distribut
 DLT i blockchain se često poistovjećuju no to nije u potpunosti ispravno. Bitno je znati da je 
 svaki blockchain DLT s određenim pravilima konsenzusa.
 DLT je baza podataka repliciranog sadržaja na svakom čvoru \emph{peer-to-peer} mreže. Svaki čvor
-mora sadržavati identičnu kopiju kompletnog sadržaja baze podataka i konstantno se ažurira sa susjednim čvorovima. \\
+mora sadržavati identičnu kopiju kompletnog sadržaja baze podataka i konstantno se sinkronizirati sa susjednim čvorovima. \\
 Kod blockchaina se te promjene zapisuju u obliku transakcije u blokove koji formiraju neprekidan lanac.
 Odatle dolazi i sam naziv tehnologije. Čvor koji upisuje transakciju u blok prvo sam provjeri njenu ispravnost pa je onda odašilje povezanim čvorovima.
-Čvorovi koji primaju novu transakciju potrvđuju njenu valjanost i uključuju ju u idući blok. Prije nego što se novi blok transakcija poveže u postojeći lanac
+Čvorovi koji primaju novu transakciju provjeravaju njenu valjanost i uključuju ju u idući blok. Prije nego što se novi blok transakcija poveže u postojeći lanac
 blokova, on mora biti potvrđen od većine čvorova prema poznatim pravilima konsenzusa koji se koristi
 u toj implementaciji mreže. Nakon što je blok povezan, sve transakcije zabilježene ostaju zauvijek i
 šanse za maliciozne izmjene su vrlo malene. To su dvije najvažnije karakteristike DL tehnologije, konačnost (engl. \emph{finality}) i nepromjenjivost \emph{immutability}.
@@ -155,16 +155,16 @@ To je ujedno i glavni nedostatak ovog algoritma. Kako bi se osigurala sigurnost,
 
 \section{Proof of Stake}
 Kako bi se riješio problem koji je imao \emph{PoW} algoritam, 2011. predloženo je novo rješenje u kojem se validiranje transakcija ne bi oslanjalo na utrošak električne energije
-i procesorsku moć. U ovom algoritmu se nove blokove ne stvaraju rudari nego kovači (engl. \emph{forgers}). \\ Umjesto da se pouzdanost \emph{blockchaina} oslanja
-na procesorsku moć i utrošenu električnu energiju u ovom algoritmu se gleda validatorov ekonomski ulog u mreži. Skup validatora naizmjenice predlažu
+i procesorsku moć. U ovom algoritmu nove blokove ne stvaraju rudari nego kovači (engl. \emph{forgers}). \\ Umjesto da se pouzdanost \emph{blockchaina} oslanja
+na procesorsku moć i utrošenu električnu energiju, u ovom algoritmu se gleda validatorov ekonomski ulog u mreži. Skup validatora naizmjenice predlažu
 i glasaju za idući blok. Težina glasa validatora izravno ovisi o količini uloga. Prednosti ovog algoritma su sigurnost, smanjen rizik centralizacije i 
-energijska efikasnost.\citep{PoSGithub}. \\
+energijska efikasnost \citep{PoSGithub}. \\
 Kako bi čvor postao validator, potrebno je obaviti poseban tip transakcije kojim korisnik zaključava određeni ulog. Dok god je ulog zaključan, validator ima šansu
 postati tvorac sljedećeg bloka. Uložena sredstva je moguće u bilo kojem trenutku otključati i ponovno koristiti za transakcije no time se gube glasovi tog validatora u mreži.
 Kako bi se spriječila manipulacija mreže, nije dovoljno biti samo \emph{najbogatiji} u mreži već se gledaju i drugi kriteriji. Prvi je vrijeme proteklo od uloga tokena.
 Validator čiji je ulog dulje zaključan ima veću šansu biti odabran kao sljedeći kovač bloka. Nakon što je validator stvorio blok, njegova duljina uloga se resetira kako
-bi drugi validatori imali veću šansu postati kovači idućeg bloka.\citep{posMedium} \\
-Primjer kako  odabrati kovača idućeg bloka je opisan u nastavku\citep{posGraphic}. 
+bi drugi validatori imali veću šansu postati kovači idućeg bloka \citep{posMedium}. \\
+Primjer kako  odabrati kovača idućeg bloka je opisan u nastavku \citep{posGraphic}. 
 \begin{figure}[ht]
   \centering
   \begin{minipage}[b]{0.49\textwidth}
@@ -189,7 +189,7 @@ Najveći problem u \emph{proof of stake} algoritmu je početna distribucija toke
 je pronaći rješenje za taj problem. Jedno od rješenja je predložio \emph{Ethereum}, početi kao \emph{proof of work} mreža i s vremenom se prebaciti na \emph{proof of stake}.
 To bi osiguralo ravnomjernu podjelu tokena rudarima i ostalim korisnicima mreže. Da bi rezultat tog procesa bio što bolji potrebno je mnogo vremena da se prirodnim 
 tokom sredstava raspodijeli bogatstvo na velik broj novčanika. \\
-Dodatno, ako validatori ne izvršavaju svoje dužnosti i potrđuju neispravne transakcije za to bivaju kažnjavani oduzimanjem uloženih tokena. Vrijednost uloženih tokena je
+Dodatno, ako validatori ne izvršavaju svoje dužnosti i validiraju neispravne transakcije za to bivaju kažnjavani oduzimanjem uloženih tokena. Vrijednost uloženih tokena je
 uvijek mnogo viša od nagrade za validiranje što znači da se sudionicima ne isplati riskirati ulog i varati.
 
 \section{Proof of Authority}
@@ -286,7 +286,7 @@ za izvršavanje željene transakcije ne smije pasti na 0. U tom slučaju izvrša
  \emph{gasa} \engl{out-of-gas exception}.\citep{yellowpaper}
 Pozivi metoda koji samo čitaju podatke s \emph{blockchaina} su besplatni jer su ti podaci već dostupni i nije potrebno trošiti resurse za upisivanje.
 \subsection{Decentralizirane aplikacije}
-Pametni ugovori su dobra osnova za izgradnju složenog sustava no problem je što interakcija s ugovorim nije prilagođena širem publicitetu. Kako bi se taj problem smanjio
+Pametni ugovori su dobra osnova za izgradnju složenog sustava, no problem je što interakcija s ugovorima nije prilagođena široj javnosti. Kako bi se taj problem smanjio
 i kako korisnici ne bi morali izravno pozivati metode ugovora, osmišljene su decentralizirane aplikacije \engl{DApps}. One zapravo koriste pametne ugovore u pozadini
 no osim njih implementiraju i korisničko sučelje koje onda komunicira s ugovorom na mreži. One mogu biti u obliku web, desktop ili mobilne aplikacije. Za komunikaciju
 s mrežom koriste već gotove biblioteke. \\
@@ -298,9 +298,12 @@ vrste i razmnožavati ih. Mačke se kupuju od drugih igrača i igrači sami odre
 Isto tako, prilikom rođenja nove mačke, plaća se provizija mreži jer je potrebno upisati novu mačku u \emph{blockchain}. 
 Ako korisnik izgubi pristup svom novčaniku koji posjeduje mačke, nitko nikada neće moći vratiti baš te mačke. \\
 Igra je postigla vrlo veliku popularnost bez obzira na svoj jednostavan dizajn i pokazala je potpuno novi koncept u svijetu igara. \\
-Danas postoje i druge igre na \emph{Ethereum} mreži koje iskorištavaju mogućnost razmijene dobara unutar igre za tokene.
+Danas postoje i druge igre na \emph{Ethereum} mreži koje iskorištavaju mogućnost razmijene dobara unutar igre za tokene. Na stranici
+ \emph{dappradar}\footnote{\url{https://dappradar.com/rankings/protocol/eth/category/games}} moguće je vidjeti sortirane pametne ugovore po broju izvršenih transakcija
+ nekom razdoblju. U kategoriji igara, trenutno najpopularnije po broju igrača su \emph{My Crypto Heroes}\footnote{\url{https://www.mycryptoheroes.net/}},
+  \emph{BRAVE FRONTIER HEROES}\footnote{\url{https://bravefrontierheroes.com/}} i \emph{CryptoSpells}\footnote{\url{https://en.cryptospells.jp/}}.
 
-\chapter{Ethereum mreža na raznovrsnom sklopovlju}
+\chapter{Ethereum mreža na raznorodnom sklopovlju}
 Glavni zadatak ovog završnog rada bio je postaviti vlastitu mrežu koristeći Ethereum platformu na raznorodnom sklopovlju
 te provjeriti koliko su visoki zahtjevi jedne takve mreže na hardver. Osim same mreže, dodane su još neke osnovne funkcionalnosti
 kako bi se što ovi laboratorijski uvjeti što više približili pravom svijetu te nam ponudili kvalitetnije rezultate. Tako recimo
@@ -323,7 +326,7 @@ Na ploči je integrirana radna memorija DDR3 kapaciteta 1 GB na taktu 480 MHz i 
 proširiva microSD memorijskom karticom.
 Ne postoji ugrađen modul za bežičnu povezivost putem Wifi-a pa je korišten Ethernet ulaz propusnosti 10M/100M. \\
 Ovo računalo je moguće napajati putem USB micro sučelja ili DC 5V ulaza. \\
-S obzirom na to da je Cortex-A7 ARM procesor postoje razne mogućnosti kad je u pitanju odabir operativni sustav. Tvornički dolazi
+S obzirom na to da je Cortex-A7 ARM procesor postoje razne mogućnosti kad je u pitanju odabir operativnog sustava. Tvornički dolazi
 Android da unutarnjoj memoriji od 4 GB što nije odgovaralo potrebama ovog rada pa je bilo potrebno pronaći odgovarajuću distribuciju
 Linux operativnog sustava.\\ Odličan izbor se pokazala distribucija armbian\footnote{\url{https://www.armbian.com/}} koja je ponudila minimalnu instalaciju operativnog sustava
 za ovo računalo baziranu na Debian Linuxu. Dolazi s ažurnom verzijom Linux kernela 5.4 što znači da sa strane programske podrške
@@ -509,7 +512,7 @@ Potrebno je imati (N/2)+1 čvorova \emph{online} kako bi se blokovi
 kontinuirano stvarali gdje je N broj adresa navedenih u \emph{genesis.json} datoteci. U slučaju da neki čvor \emph{ispadne},
 blokovi će se stvarati dokle god je dovoljno aktivnih čvorova. Kad se čvor ponovno poveže, on će uskladiti svoje stanje
 s ostalima kako bi povijest bila svugdje jedinstvena. \\
-Novi blok se generira svako 15 sekundi jer je tako zadano prilikom inicijalizacije \emph{genesis.json} datotekom. \\
+Novi blok se generira svakih 15 sekundi jer je tako zadano prilikom inicijalizacije \emph{genesis.json} datotekom. \\
 U isto se vrijeme na \emph{bootnodeu} vide \emph{ping-pong} poruke čvorova što znači da su svi čvorovi uspješno povezani i međusobno
 vidljivi.
 
