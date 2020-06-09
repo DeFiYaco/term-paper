@@ -196,10 +196,10 @@ uvijek mnogo viša od nagrade za validiranje što znači da se sudionicima ne is
 \emph{Proof of Authority} ili dokaz o autoritetu jest modificiran oblik \emph{proof of stake} algoritma. Umjesto uloga novčane vrijednosti u tokenima, u ovom algoritmu
 sam identitet validatora ima funkciju uloga. Identitet u ovom kontekstu znači pripadnost validatorove osobne identifikacije identitetu na platformi, odnosno
 sigurnost da je validator osoba koja tvrdi da je. Kao i u \emph{PoS} algoritmu, identitet kao forma uloga je oskudan. No za razliku od njega, ovdje jedan identitet odgovara
-jednoj osobi.\citep{poa1} \\
+jednoj osobi \citep{poa1}. \\
 Samo potvrđeni identiteti mogu stvarati blokove. Nije potrebno ulagati tokene niti trošiti veliku količinu energije. Jedini zahtjev je da se identitet nalazi na listi
 dopuštenih validatora. Ta lista može biti statična ili dinamična. Statična lista identiteta je definirana u specifikaciji prvog bloka \engl{genesis}. Nije moguće naknadno
-izmijeniti tu listu. U drugom slučaju, listu je moguće izmijeniti tako da postojeći identiteti s liste dodaju nove ili brišu postojeće ako se oni ponašaju maliciozno.\citep{poa2} \\
+izmijeniti tu listu. U drugom slučaju, listu je moguće izmijeniti tako da postojeći identiteti s liste dodaju nove ili brišu postojeće ako se oni ponašaju maliciozno \citep{poa2}. \\
 Vrlo je lako primijetiti da ovaj način dopušta puno veću centraliziranost od preostalih algoritama konsenzusa. Iz tog mu razloga osnovna namjena nisu javne mreže nego manje mreže,
 obično unutar nekih tvrtki ili zatvorenih sustava. U takvom okruženju nije bitno prikupljanje nagrada validiranjem transakcija pa su provizije najmanje moguće.
 Osim niskih provizija, stvaranje novih blokova može biti vrlo brzo uz izrazito niske zahtjeve sklopovlja čvorova u mreži. Primjerice, testna mreža \emph{Ethereuma, Kovan}
@@ -215,10 +215,10 @@ Od Buterinovog dokumenta do pokretanja \emph{Ethereuma} protekle su dvije prili�
 Gavina Wooda, koji je definirao \emph{Ethereum} na tehničkoj razini u svom \emph{yellow paper} dokumentu\footnote{\url{https://ethereum.github.io/yellowpaper/paper.pdf}} te
 izumio programski jezik \emph{Solidity}\footnote{\url{https://solidity.readthedocs.io/en/v0.6.9/}}, Charlesa Hoskinsona koji je na početku bio direktor projekta, Jeffreya
 Wilkea, programera koji je izrazito puno doprinio projektu, te Josepha Lubina, koji je bio ključan u pokretanju zaklade \emph{Ethereum Foundation}
-\footnote{\url{https://ethereum.foundation/}} u Švicarskoj.\citep{ffzg} \\
+\footnote{\url{https://ethereum.foundation/}} u Švicarskoj \citep{ffzg}. \\
  \emph{Ethereum} je globalno decentralizirana računalna infrastruktura otvorenog koda koja
 izvodi programe zvane pametnim ugovorima \engl{smart contracts}. Koristi \emph{blockchain} za sinkroniziranje i pohranu promjena stanja sustava s valutom \emph{ether}
-za ograničavanje troška izvođenja programa\citep{masteringEth}. \\
+za ograničavanje troška izvođenja programa \citep{masteringEth}. \\
 Dizajn iza \emph{Ethereuma} prati principe:
 
 \begin{enumerate}
@@ -246,7 +246,7 @@ U tom slučaju, razmislit će se o izmjeni.
 \paragraph{}
 Protokol ne bi smio aktivno ograničavati ili zabranjivati specifične kategorije uporabe. Svi regulatorni mehanizmi u protokolu trebaju biti dizajnirani da izravno
 reguliraju štetu i ne pokušavaju se suprotstaviti specifičnim neželjenim aplikacijama. Programer čak može pokrenuti beskonačnu petlju dokle god plaća proviziju
-njeno za izvođenje.\citep{whitepaper}
+njeno za izvođenje \citep{whitepaper}.
 
 \section{Komponente}
 U \emph{Ethereumu} postoji više komponenti koje čine cjelinu. Mreža je \emph{peer to peer} što znači da članovi mreže komuniciraju izravno, bez poslužitelja.
@@ -256,7 +256,7 @@ rade na \emph{PoA} algoritmu konsenzusa. \\
 Transakcije su poruke koje prenose vrijednost i podatke između pošiljatelja i primatelja. Svaka transakcija u mreži zahtjeva predodređenu količinu provizije u obliku
 \emph{gasa}. To je mjerna jedinica koja određuje potrebnu procesnu snagu za izvršavanje te transakcije.
 Kad je mreža opterećena i postoje transakcije koje moraju čekati na njihovo uključivanje u blok, prednost ima transakcija za čije je izvođenje plaćeno više
-\emph{gasa}. Isto tako, ako je mreža slabo opterećena, dovoljno je platiti proviziju blizu 0 \emph{gasa} da bi se transakcija uključila u blok.\citep{ethdocs}
+\emph{gasa}. Isto tako, ako je mreža slabo opterećena, dovoljno je platiti proviziju blizu 0 \emph{gasa} da bi se transakcija uključila u blok \citep{ethdocs}.
 \paragraph{}
 Sve promjene stanja u mreži su procesuirane u \emph{Ethereum} virtualnom stroju. \emph{EVM} izvršava strojni kod prevedenih pametnih ugovora koji su pisani u višem
 programskom jeziku, primjerice u \emph{Solidity} jeziku. \\
@@ -266,7 +266,7 @@ Merkleovo stablo \engl{Merkle Patricia Tree}.
 Kao što je već rečeno prije, da bi se osigurala pouzdanost i nepromjenjivost podataka u mreži, potrebno je odabrati algoritam konsenzusa. Glavna \emph{Ethereum} mreža
 kao algoritam koristi \emph{proof of work}. Postoje planovi prijelaska na \emph{proof of stake} algoritam konsenzusa tijekom 2020. godine.
 \paragraph{}
-Postoji nekoliko interoperabilnih implementacija klijentske programske podrške za \emph{Ethereum}. Najpoznatiji su \emph{Geth} i \emph{Parity}.\citep{masteringEth}
+Postoji nekoliko interoperabilnih implementacija klijentske programske podrške za \emph{Ethereum}. Najpoznatiji su \emph{Geth} i \emph{Parity}. \citep{masteringEth}
 
 \section{Pametni ugovori}
 Najveća nadogradnja koju je uveo \emph{Ethereum} u odnosu na dotadašnje implementacije tehnologije distribuirane knjige jesu pametni ugovori.
@@ -275,7 +275,7 @@ Programski kod pisan za \emph{Bitcoin} je vrlo ograničen i nije podržavao izvo
 je potreban potpis više predefiniranih sudionika \engl{multisig}. \\
 Taj problem rješava \emph{Ethereum} koji ne koristi \emph{Script} nego svoj jezik, \emph{Solidity}. \emph{Solidity} je objektno orijentiran jezik za implementiranje pametnih
 ugovora. Dizajniran je specifično za izvršavanje na \emph{Ethereum} virtualnom stroju. \\
-Koristeći \emph{Solidity} moguće je izrađivati pametne ugovore primjerice za glasanje i grupno financiranje \engl{crowdfunding}.\citep{solidity}
+Koristeći \emph{Solidity} moguće je izrađivati pametne ugovore primjerice za glasanje i grupno financiranje \engl{crowdfunding} \citep{solidity}.
 Nakon što je kod napisan, potrebno ga je prevesti i postaviti na \emph{Ethereum} mrežu. Kod živi na određenoj adresi u mreži i može primati, čuvati i slati tokene.
 Adrese na \emph{Ethereum} mreži su heksadekadskog oblika duljine 40 znakova. Nije moguće raspoznati \emph{Ethereum} adresu novčanika i bilo koji drugi nasumični 
 heksadekadski broj jednake duljine. \\
@@ -283,7 +283,7 @@ Nakon što je ugovor preveden i postavljen, dostupan je svakom čvoru koji je si
 tko će imati ovlasti pozivati određene metode, ali ako to nije podešeno, bilo tko može pozivati metode. Kako ne bi došlo do zagušenja mreže malicioznim pozivima i 
 dugotrajnim izvršavanjem koda, svaka transakcija koja upisuje novi sadržaj na mrežu košta. Izvršavanjem takvih metoda se troši \emph{gas}. Količina \emph{gasa} dostupnog
 za izvršavanje željene transakcije ne smije pasti na 0. U tom slučaju izvršavanje se zaustavlja i kažemo da se dogodila iznimka nedostatka
- \emph{gasa} \engl{out-of-gas exception}.\citep{yellowpaper}
+ \emph{gasa} \engl{out-of-gas exception}. \citep{yellowpaper}
 Pozivi metoda koji samo čitaju podatke s \emph{blockchaina} su besplatni jer su ti podaci već dostupni i nije potrebno trošiti resurse za upisivanje.
 \subsection{Decentralizirane aplikacije}
 Pametni ugovori su dobra osnova za izgradnju složenog sustava, no problem je što interakcija s ugovorima nije prilagođena široj javnosti. Kako bi se taj problem smanjio
@@ -371,7 +371,7 @@ Računalo je povezano putem Ethernet sučelja na usmjeritelj (engl. \emph{Router
 Na prijenosnom računalu je instaliran Xubuntu 20 operativni sustav dok je na stolnom računalu instaliran Ubuntu 19.10.
 Oba operativna sustava su redovno ažurirana i imaju postavljene statične IP adrese.
 \section{Geth privatna mreža}
-Geth je službena implementacija Ethereum protokola u programskom jeziku Go.\citep{geth} Izvorni kod je javno dostupan na Github platformi. 
+Geth je službena implementacija Ethereum protokola u programskom jeziku Go \citep{geth}. Izvorni kod je javno dostupan na Github platformi. 
 Postavljanje je vrlo dobro opisano u službenoj dokumentaciji\footnote{\url{https://geth.ethereum.org/docs/}}. Potrebno ga je instalirati ili pokretati iz docker kontejnera. 
 Za ovaj rad je odabrana klasična instalacija zbog boljih performanci i smanjenja općih troškova (engl. \emph{overhead}).
 S obzirom na to da svaki uređaj koji je korišten pokreće neku distribuciju linuxa temeljenu na Debianu, instalacija je jednostavna
@@ -464,7 +464,7 @@ U nastavku je prikazana \emph{genesis.json} datoteka koja je korištena u ovom p
 
 U "config" odjeljku se definira identifikator mreže i algoritam konsenzusa. Ovdje je to \emph{clique}. U njegovim opcijama je namješten
 period na 15 sekundi i \emph{epoch} koji govori nakon kojeg bloka se kreira točka (engl. \emph{checkpoint}) nakon koje će čvorovi moći
-uskladiti svoje stanje bez da provjeravaju povijest od prvog bloka, odnosno \emph{genesis} bloka.\citep{genesisSpec} Dovoljno je očitati stanje na \emph{checkpointu}
+uskladiti svoje stanje bez da provjeravaju povijest od prvog bloka, odnosno \emph{genesis} bloka \citep{genesisSpec}. Dovoljno je očitati stanje na \emph{checkpointu}
 što donosi velika poboljšanja u performancama uz određeni kompromis u sigurnosti algoritma. \\
 Osim tih polja, za \emph{Proof of Authority} je jedino još važno u polje "alloc" dodati sve čvorove kojima će biti dozvoljeno potvrđivati
 nove generirane blokove (engl. \emph{sealing blocks}). Redom adrese navedene su adrese novčanika Raspberry Pi 3 pločice, AMD stolnog računala, Intel prijenosnog
@@ -533,7 +533,7 @@ Osnovni dio praćenja stanja je \emph{block explorer}. Pomoću njega se može u 
 što podrazumijeva prikaz najvišeg trenutnog bloka (engl. \emph{block height}) te pretraživanje i filtriranje transakcija u 
 pojedinom bloku. \\
 Odabrana je aplikacija \emph{Alethio Ethereum Lite Explorer}\footnote{\url{https://aleth.io/products/explorer}} zbog svoje jednostavnosti i ažurnosti. To je klijentska
-web aplikacija koja se povezuje na bilo koji \emph{Ethereum} čvor koji ima omogućen udaljen poziv procedura (engl. \emph{RPC}).\citep{explorer} \\
+web aplikacija koja se povezuje na bilo koji \emph{Ethereum} čvor koji ima omogućen udaljen poziv procedura (engl. \emph{RPC}) \citep{explorer}. \\
 Čvorovi postavljeni u prethodnom dijelu nemaju omogućen udaljen poziv procedura. Da ga omogućili potrebno je zaustaviti geth proces
 na odabranom uređaju te ponovno pokrenuti dodavanjem parametara:
 
